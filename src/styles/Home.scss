@@ -2,3 +2,49 @@
     padding: 0;
     margin: 0;
 }
+*{
+    padding: 0;
+    margin: 0;
+}
+li{
+    list-style: none;
+}
+// most phones
+@media(max-width: 576px){
+
+}
+// smaller screens
+@media(min-width: 577px){
+
+}
+// medium sized screens
+@media(min-width: 768px){
+
+}
+// laptops and bigger
+@media(min-width: 992px){
+
+}
+@media(min-width: 1200px){
+    .intro-section{
+        background-color: gray;
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .search-content{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .search-buttons{
+                display: flex;
+                flex-direction: row;
+            }
+        }
+    }
+}
+@media(min-width: 1400px){
+
+}
