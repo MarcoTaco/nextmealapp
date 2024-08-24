@@ -23,6 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+# API Stuff 
+.env
 
-#personal notes
+# Personal notes
 notes.txt
