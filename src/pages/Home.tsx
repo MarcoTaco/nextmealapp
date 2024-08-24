@@ -10,10 +10,10 @@ function Home(){
     }
 
     function handleAdd(){
-        if(inputText != "" && ingredients.length <= 5){
+        if(inputText != "" && ingredients.length < 5){
             setIngredients([...ingredients, inputText]);
         }
-        else if(ingredients.length > 5){
+        else if(ingredients.length >= 5){
             setInputText("No more ingredients");
         }
         setInputText("");
