@@ -1,8 +1,9 @@
 import React from 'react';
 import axios, { AxiosResponse } from 'axios';
 
-const URL = 'https://api.spoonacular.com';
-const APIKEY = process.env.REACT_APP_SPOONACULAR_API_KEY;
+//url to getting simple recipe results. just to get it to work for now
+const URL = 'https://api.spoonacular.com/recipes/complexSearch?apiKey=';
+const APIKEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 
 // axios instance base configuration
 const axiosInstance = axios.create({
@@ -29,7 +30,7 @@ interface RecipeSearchResponse{
 // fetch recipes based on a query
 export const fetchRecipes = async (query: string): Promise<RecipeSearchResponse> => {
     try{
-        const response: AxiosResponse<RecipeSearchResponse> = await axiosInstance.get('/recipes/complexSearch',{
+        const response: AxiosResponse<RecipeSearchResponse> = await axiosInstance.get('&query=',{
             params: {
                 query,
             },

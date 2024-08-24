@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchRecipes, fetchRecipeDetails } from '../services/SpoonacularCall.tsx';
+import { fetchRecipes, fetchRecipeDetails } from '../services/SpoonacularCall.js';
 
 interface Recipe{
     id: number,
@@ -16,7 +16,9 @@ function FoodSearchPage(){
         const getRecipes = async () => {
             try{
                 setLoading(true);
-                const data = await fetchRecipes('pasta');
+                const data = await fetchRecipes('chicken');
+
+                //data.results is undefined and getting an error
                 setRecipes(data.results);
             } catch(err){
                 setError('Failed to get recipes');
@@ -33,13 +35,14 @@ function FoodSearchPage(){
 
     return(
         <div>
+            <h1>Recipe Search Results</h1>
             <ul>
                 {recipes.map((recipe) => (
                     <li key={recipe.id}>
                         <h3>{recipe.title}</h3>
                         <img src={recipe.image} alt={recipe.title}></img>
                     </li>
-                ))};
+                ))}
             </ul>
         </div>
     );
