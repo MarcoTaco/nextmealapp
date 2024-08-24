@@ -1,0 +1,34 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+@media (min-width: 1200px) {
+  .intro-section {
+    background-color: gray;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .intro-section .search-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .intro-section .search-content .search-buttons {
+    display: flex;
+    flex-direction: row;
+  }
+}/*# sourceMappingURL=Home.css.map */

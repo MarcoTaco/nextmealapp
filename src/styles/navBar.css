@@ -1,0 +1,30 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+@media (min-width: 1200px) {
+  .header-section {
+    height: 15vh;
+    width: 100%;
+    background-color: red;
+  }
+  .header-section .nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .header-section .nav-bar .nav-links ul {
+    display: flex;
+    flex-direction: column;
+  }
+  .header-section .nav-bar .nav-other-choices ul {
+    display: flex;
+    flex-direction: row;
+  }
+}/*# sourceMappingURL=navBar.css.map */
