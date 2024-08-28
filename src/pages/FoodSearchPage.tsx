@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-// import { fetchRecipes } from '../services/SpoonacularCall.js';
+import { fetchRecipes } from '../services/SpoonacularCall.js';
+import { useLocation } from 'react-router-dom';
 
-// interface Recipe{
-//     id: number,
-//     title: string,
-//     image: string
-// };
+interface Recipe{
+    id: number,
+    title: string,
+    image: string
+};
 
 function FoodSearchPage(){    
 //     const [recipes, setRecipes] = useState<Recipe[]>([]);
