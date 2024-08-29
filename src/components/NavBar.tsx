@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchFoodBtn from './SearchFoodBtn.js';
 import '../styles/navBar.scss';
 
 function NavBar(){
@@ -19,7 +20,7 @@ function NavBar(){
                 <div className="nav-other-choices">
                     <ul>
                         <li>Login</li>
-                        <li>Search</li>
+                        <li><SearchFoodBtn /></li>
                     </ul>
                 </div>
             </div>
