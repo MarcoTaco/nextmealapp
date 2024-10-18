@@ -1,0 +1,17 @@
+.result-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    .result{
+        display: flex;
+        flex-direction: column;
+        p{
+            text-align: left;
+        }
+    }
+    img{
+       max-width: 200px;
+       max-height: 200px;
+    }
+}

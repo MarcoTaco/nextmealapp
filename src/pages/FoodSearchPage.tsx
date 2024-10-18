@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchRecipesWhole } from '../services/SpoonacularCall.js';
 import { useLocation } from 'react-router-dom';
+import '../styles/FoodSearchPage.scss';
 
 interface WholeRecipe{
     id: number,
@@ -41,14 +42,21 @@ function FoodSearchPage(){
     return(
         <div>
             <h1>Recipe Search Results</h1>
-            <ul>
-                {recipes.map((recipe) => (
-                    <li key={recipe.id}>
-                        <h3>{recipe.title}</h3>
-                        <img src={recipe.image} alt={recipe.title}></img>
-                    </li>
-                ))}
-            </ul>
+            <div className="result-section">
+                <div className="result-filter-section">
+                    <form>
+                        {/* need to think of what to put here for filters. */}
+                    </form>
+                </div>
+                <div className="result-grid">
+                    {recipes.map((recipe) => (
+                        <div className="result">
+                            <img src={recipe.image} alt={recipe.title}></img>
+                            <p>{recipe.title}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
     return(
