@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchRecipesWhole } from '../services/SpoonacularCall.js';
+import SearchFoodBtn from '../components/SearchFoodBtn.js';
 import { useLocation } from 'react-router-dom';
 import '../styles/FoodSearchPage.scss';
 
@@ -10,6 +11,8 @@ interface WholeRecipe{
 };
 
 function FoodSearchPage(){    
+    const [searchText, setSearchText] = useState<string>("");
+
     const [recipes, setRecipes] = useState<WholeRecipe[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -36,6 +39,14 @@ function FoodSearchPage(){
         getRecipes();
     }, []);
 
+    // in here goes the search text for searching foods. but by the filter stuff
+    function handleSearchText(){
+
+    }
+    function clickSearch(){
+
+    }
+
     if(loading) return <p>Loading...</p>;
     if(error) return <p>{error}</p>;
 
@@ -44,8 +55,28 @@ function FoodSearchPage(){
             <h1>Recipe Search Results</h1>
             <div className="result-section">
                 <div className="result-filter-section">
-                    <form>
-                        {/* need to think of what to put here for filters. */}
+                    <SearchFoodBtn />
+                    <form className="searchForm">
+                        {/* 
+                            filter by (list of ingredients matching, favorites, personal, more if i think of any)
+                            
+                            i think that's it for now. i can go back if i want to add anything.
+                        */}
+                        <label>
+                            <input type="checkbox" value="American" /> American
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Indian" /> Indian
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Asian" /> Asian
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Italian" /> Italian
+                        </label>
+                        <label>
+                            <input type="checkbox" value="French" /> French
+                        </label>
                     </form>
                 </div>
                 <div className="result-grid">
