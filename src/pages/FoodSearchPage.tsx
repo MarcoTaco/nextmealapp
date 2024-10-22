@@ -20,7 +20,6 @@ function FoodSearchPage(){
     // new stuff
     const location = useLocation();
     const query = new URLSearchParams(location.search).get('query') || '';
-    
 
     useEffect(() =>{
         const getRecipes = async () => {
@@ -82,18 +81,13 @@ function FoodSearchPage(){
                 <div className="result-grid">
                     {recipes.map((recipe) => (
                         <div className="result">
-                            <img src={recipe.image} alt={recipe.title}></img>
+                            <img src={recipe.image} alt={recipe.title} data-id={recipe.id}></img>
                             <p>{recipe.title}</p>
                         </div>
                     ))}
                 </div>
             </div>
         </div>
-    );
-    return(
-        <>
-            <h2>test</h2>
-        </>
     );
 }
 
