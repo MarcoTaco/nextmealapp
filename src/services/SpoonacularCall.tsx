@@ -1,9 +1,7 @@
 // this file is for the different kinds of api calls i will be making
 import axios, { AxiosResponse } from 'axios';
 
-const URLWHOLEFOOD = 'https://api.spoonacular.com/recipes/complexSearch';
 const URLINGREDIENTS = 'https://api.spoonacular.com/recipes/findByIngredients';
-const URLINSTRUCTIONS = 'https://api.spoonacular.com/recipes/{id}/analyzedInstructions';
 
 const APIKEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 
@@ -26,6 +24,7 @@ interface RecipeInstructions{
     name: string,
     steps:{
         ingredients:{
+            id: number,
             name: string
         }[];
         number: number,
@@ -35,6 +34,8 @@ interface RecipeInstructions{
 
 // displaying images of foods for a "display all" page. fetch the images and titles of food based on a query
 export const fetchRecipesWhole = async (query: string): Promise<RecipeSearchResponse> => {
+    const URLWHOLEFOOD = 'https://api.spoonacular.com/recipes/complexSearch';
+
     try{
         const response = await axios.get<RecipeSearchResponse>(URLWHOLEFOOD, {
             params: {
@@ -51,11 +52,13 @@ export const fetchRecipesWhole = async (query: string): Promise<RecipeSearchResp
 };
 
 // this is for fetching the instructions when clicking on an image.
-export const fetchRecipesInstructions = async (query: string): Promise<RecipeInstructions> => {
+export const fetchRecipeInstructions = async (id: number): Promise<RecipeInstructions> => {
+    const URLINSTRUCTIONS = `https://api.spoonacular.com/recipes/${id}/analyzedInstructions`;
+
     try{
         const response = await axios.get<RecipeInstructions>(URLINSTRUCTIONS, {
             params: {
-                apiKey: APIKEY
+                apiKey: APIKEY,
                 // need to figure out how i want to add a list of ingredients.
             }
         });
