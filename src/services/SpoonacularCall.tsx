@@ -20,16 +20,17 @@ interface RecipeSearchResponse{
 }
 
 // this interface is for what to fetch when fetching for instructions
+interface RecipeInstructionsData{
+    ingredients:{
+        id: number,
+        name: string
+    }[];
+    number: number,
+    step: string,
+}
 interface RecipeInstructions{
     name: string,
-    steps:{
-        ingredients:{
-            id: number,
-            name: string
-        }[];
-        number: number,
-        step: string,
-    }[];
+    steps: RecipeInstructionsData[];
 }
 
 // displaying images of foods for a "display all" page. fetch the images and titles of food based on a query
@@ -56,14 +57,14 @@ export const fetchRecipeInstructions = async (id: number): Promise<RecipeInstruc
     const URLINSTRUCTIONS = `https://api.spoonacular.com/recipes/${id}/analyzedInstructions`;
 
     try{
-        const response = await axios.get<RecipeInstructions>(URLINSTRUCTIONS, {
+        const response = await axios.get<{name: string; steps: RecipeInstructionsData[]}[]>(URLINSTRUCTIONS, {
             params: {
                 apiKey: APIKEY,
                 // need to figure out how i want to add a list of ingredients.
             }
         });
 
-        return response.data;
+        return response.data[0];
     }catch(error){
         throw new Error(`Error ingredients ${error}`);
     }

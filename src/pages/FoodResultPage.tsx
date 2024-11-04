@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import { fetchRecipeInstructions } from '../services/SpoonacularCall.js';
 import { useLocation } from "react-router-dom";
 
-interface RecipeInstructions{
-    name: string,
-    steps:{
-        // ingredients are the ingredient for each step.
-        ingredients:{
-            id: number,
-            name: string
-        }[];
-        // number is numbering the steps step by step, step is the instruction on what to do
-        number: number,
-        step: string,
+interface RecipeInstructionsData{
+    // ingredients are the ingredient for each step.
+    ingredients:{
+        id: number,
+        name: string
     }[];
+    // number is numbering the steps step by step, step is the instruction on what to do
+    number: number,
+    step: string,
+}
+
+interface RecipeInstructions {
+    name: string,
+    steps: RecipeInstructionsData[];
 }
 
 function FoodResultPage(){
@@ -51,17 +53,24 @@ function FoodResultPage(){
     if(loading) return<h1>Loading...</h1>
     if(error) return <h1>{error}</h1>
 
+    console.log(recipe.name);
     return(
         <div>
-            <h1>{recipe.name}</h1>
-            {recipe.steps.map((step) => (
-                <p key={step.number}>{step.step}</p>
+            <h1>{recipe.name || 'Recipe Instructions'}</h1>
+            {recipe.steps?.map((instruction, index) => (
+                <div>
+                    <p key={index}>Step {instruction.number}</p>
+                    <p key={index}>{instruction.step}</p>
+
+                    {instruction.ingredients.length > 0 && (
+                        <ul>
+                            {instruction.ingredients.map((ingredient) => (
+                                <li key={ingredient.id}>{ingredient.name}</li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
             ))}
-            <ul>
-                {recipe.steps[0]?.ingredients.map((name => (
-                    <li key={name.id}>{name.name}</li>
-                )))}
-            </ul>
         </div>
     );
 }
