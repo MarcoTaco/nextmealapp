@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchRecipeInstructions } from '../services/SpoonacularCall.js';
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 interface RecipeInstructionsData{
     // ingredients are the ingredient for each step.
@@ -27,7 +27,11 @@ function FoodResultPage(){
     // putting random number for now.
     // const id = 649722;
 
+    const location = useLocation();
+
     const { foodId } = useParams<{ foodId: string }>();
+
+    const foodImage = location.state?.foodImage;
 
     useEffect(() => {
         if(foodId){
@@ -54,22 +58,37 @@ function FoodResultPage(){
     if(loading) return<h1>Loading...</h1>
     if(error) return <h1>{error}</h1>
 
+    // when displaying the recipe instructions and ingredients, the ingredients will display multiple times.
+    // in this function, i am creating a map so I can keep track if an ingredient exists in the map so i
+    // don't show it again
+    function getUniqueIngredients(recipe : RecipeInstructions){
+        const ingredientsMap = new Map<number, string>();
+
+        recipe.steps.forEach((instructions) => {
+            instructions.ingredients.forEach((ingredient) => {
+                if(!ingredientsMap.has(ingredient.id)){
+                    ingredientsMap.set(ingredient.id, ingredient.name);
+                }
+            });
+        });
+
+        return Array.from(ingredientsMap.values());
+    }
+
+    const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
+
     return(
         <div>
             <h1>{recipe.name || 'Recipe Instructions'}</h1>
+            { foodImage && <img src={foodImage} /> }
             {recipe.steps?.map((instruction, index) => (
-                <div>
+                <div className="ingredient-step">
                     <p key={index}>Step {instruction.number}</p>
                     <p key={index}>{instruction.step}</p>
-
-                    {instruction.ingredients.length > 0 && (
-                        <ul>
-                            {instruction.ingredients.map((ingredient) => (
-                                <li key={ingredient.id}>{ingredient.name}</li>
-                            ))}
-                        </ul>
-                    )}
                 </div>
+            ))}
+            {uniqueIngredients.map((ingredient) => (
+                <p>{ingredient}</p>
             ))}
         </div>
     );

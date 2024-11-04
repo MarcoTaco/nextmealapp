@@ -41,8 +41,8 @@ function FoodSearchPage(){
     const navigate = useNavigate();
 
     // this function is for when we click on an image to map their id to the recipe page
-    function handleImageClick(foodId: number){
-        navigate(`/recipe/${foodId}`);
+    function handleImageClick(foodId: number, foodImage: string){
+        navigate(`/recipe/${foodId}`, { state: {foodImage} });
     }
     // in here goes the search text for searching foods. but by the filter stuff
     function handleSearchText(){
@@ -87,7 +87,7 @@ function FoodSearchPage(){
                 <div className="result-grid">
                     {recipes.map((recipe) => (
                         <div className="result">
-                            <img src={recipe.image} onClick={() => (handleImageClick(recipe.id))} alt={recipe.title} data-id={recipe.id}></img>
+                            <img src={recipe.image} onClick={() => (handleImageClick(recipe.id, recipe.image))} alt={recipe.title} data-id={recipe.id}></img>
                             <p>{recipe.title}</p>
                         </div>
                     ))}
