@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactEventHandler, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import "../styles/Home.scss";
 
 function Home(){
