@@ -1,8 +1,6 @@
 // this file is for the different kinds of api calls i will be making
 import axios, { AxiosResponse } from 'axios';
 
-const URLINGREDIENTS = 'https://api.spoonacular.com/recipes/findByIngredients';
-
 const APIKEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 
 // what to expect from the api response
@@ -33,6 +31,20 @@ interface RecipeInstructions{
     steps: RecipeInstructionsData[];
 }
 
+// this interface is for when we're searching for foods based on the ingredients
+interface RecipeByIngredients{
+    id: number,
+    image: string,
+    missedIngredients: {
+        id: number,
+        name: string
+    }[];
+    usedIngredients: {
+        id: number,
+        name: string
+    }[];
+}
+
 // displaying images of foods for a "display all" page. fetch the images and titles of food based on a query
 export const fetchRecipesWhole = async (query: string): Promise<RecipeSearchResponse> => {
     const URLWHOLEFOOD = 'https://api.spoonacular.com/recipes/complexSearch';
@@ -60,7 +72,6 @@ export const fetchRecipeInstructions = async (id: number): Promise<RecipeInstruc
         const response = await axios.get<{name: string; steps: RecipeInstructionsData[]}[]>(URLINSTRUCTIONS, {
             params: {
                 apiKey: APIKEY,
-                // need to figure out how i want to add a list of ingredients.
             }
         });
 
@@ -70,4 +81,20 @@ export const fetchRecipeInstructions = async (id: number): Promise<RecipeInstruc
     }
 };
 
-// TODO: fetch recipes when only searching for foods depending on ingredients.
+// fetch recipes when only searching for foods depending on ingredients.
+export const fetchRecipeByIngredients = async (query: string): Promise<RecipeByIngredients> => {
+    const URLINGREDIENTS = 'https://api.spoonacular.com/recipes/findByIngredients?ingredients=';
+    
+    try{
+        const response = await axios.get<RecipeByIngredients>(URLINGREDIENTS, {
+            params: {
+                apiKey: APIKEY,
+                query: query,
+            }
+        });
+
+        return response.data;
+    }catch(error){
+        throw new Error(`Error with fetching by ingredients: ${error}`);
+    }
+};
