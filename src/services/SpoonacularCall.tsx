@@ -34,6 +34,7 @@ interface RecipeInstructions{
 // this interface is for when we're searching for foods based on the ingredients
 interface RecipeByIngredients{
     id: number,
+    title: string,
     image: string,
     missedIngredients: {
         id: number,
@@ -43,6 +44,10 @@ interface RecipeByIngredients{
         id: number,
         name: string
     }[];
+}
+
+interface RecipeByIngredientsResponse{
+    results: RecipeByIngredients[],
 }
 
 // displaying images of foods for a "display all" page. fetch the images and titles of food based on a query
@@ -82,11 +87,11 @@ export const fetchRecipeInstructions = async (id: number): Promise<RecipeInstruc
 };
 
 // fetch recipes when only searching for foods depending on ingredients.
-export const fetchRecipeByIngredients = async (query: string): Promise<RecipeByIngredients> => {
+export const fetchRecipeByIngredients = async (query: string): Promise<RecipeByIngredientsResponse> => {
     const URLINGREDIENTS = 'https://api.spoonacular.com/recipes/findByIngredients?ingredients=';
     
     try{
-        const response = await axios.get<RecipeByIngredients>(URLINGREDIENTS, {
+        const response = await axios.get<RecipeByIngredientsResponse>(URLINGREDIENTS, {
             params: {
                 apiKey: APIKEY,
                 query: query,
