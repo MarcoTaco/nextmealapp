@@ -53,7 +53,7 @@ function FoodResultPage(){
         }
     }, [foodId]);
 
-    if(!recipe) return <h1>No result</h1>
+    if(!recipe) return <h1>Loading...</h1>
 
     if(loading) return<h1>Loading...</h1>
     if(error) return <h1>{error}</h1>

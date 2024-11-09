@@ -29,10 +29,12 @@ function Home(){
     function searchIngredients(e: React.FormEvent){
         e.preventDefault();
         var ingredientQueryString = '';
+        
         for(let i = 0; i < ingredients.length; i++){
-            ingredientQueryString += ingredients[i] + ',+';
+            ingredientQueryString += ingredients[i] + ",+";
         }
-        navigate(`/food-menu?query=${ingredients}`);
+
+        navigate(`/food-menu?query=${ingredientQueryString}`);
     }
     
     return(
