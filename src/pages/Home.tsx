@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import FoodResultPage from './FoodResultPage.js';
 import "../styles/Home.scss";
 
 function Home(){
@@ -59,6 +60,7 @@ function Home(){
                     </div>                    
                 </div>
             </section>
+            <FoodResultPage ingredients={ingredients} />
         </div>
     )
 }
