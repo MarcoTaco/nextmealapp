@@ -18,11 +18,16 @@ interface RecipeInstructions {
     steps: RecipeInstructionsData[];
 }
 
-function FoodResultPage(){
+interface RecipeInstructionsProp {
+    userIngredients: string[];
+}
+
+function FoodResultsIngredientsPage({userIngredients}: RecipeInstructionsProp){
     const[recipe, setRecipe] = useState<RecipeInstructions | null>(null);
     const[loading, setLoading] = useState<boolean>(true);
     const[error, setError] = useState<string | null>(null);
 
+    console.log(userIngredients);
     
     // i imagine we'll need a way to pass id from the foodsearchpage file so we know which one to look for
     // putting random number for now.
@@ -76,6 +81,11 @@ function FoodResultPage(){
         return Array.from(ingredientsMap.values());
     }
 
+    // this function is for setting if you have those specific ingredients that you searched for on the home page
+    function ingredientChecklist(){
+
+    }
+
     const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
 
     return(
@@ -95,4 +105,4 @@ function FoodResultPage(){
     );
 }
 
-export default FoodResultPage;
+export default FoodResultsIngredientsPage;

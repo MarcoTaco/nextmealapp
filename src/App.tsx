@@ -4,8 +4,11 @@ import './App.css'
 import NavBar from './components/NavBar.js';
 import Home from './pages/Home.js';
 import FoodSearchPage from './pages/FoodSearchPage.js';
-
+import FoodResultsIngredientsPage from './pages/FoodResultsIngredientsPage.js';
+import FoodSearchIngredientsPage from './pages/FoodSearchIngredientsPage.js';
 import FoodResultPage from './pages/FoodResultPage.js';
+
+
 function App() {
   return (
     <Router>
@@ -14,6 +17,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/food-menu" element={<FoodSearchPage />} />
         <Route path="/recipe/:foodId" element={<FoodResultPage />} />
+        <Route path="/food-menu-ingredients" element={<FoodSearchIngredientsPage userIngredients={[]} />} />
+        <Route path="/recipe-with-ingredients/:foodId" element={<FoodResultsIngredientsPage userIngredients={[]} />} />
       </Routes>
     </Router>
   )
