@@ -18,11 +18,12 @@ interface RecipeInstructions {
     steps: RecipeInstructionsData[];
 }
 
-function FoodResultPage(){
+
+
+function FoodResultsIngredientsPage(){
     const[recipe, setRecipe] = useState<RecipeInstructions | null>(null);
     const[loading, setLoading] = useState<boolean>(true);
     const[error, setError] = useState<string | null>(null);
-
     
     // i imagine we'll need a way to pass id from the foodsearchpage file so we know which one to look for
     // putting random number for now.
@@ -33,6 +34,9 @@ function FoodResultPage(){
     const { foodId } = useParams<{ foodId: string }>();
 
     const foodImage = location.state?.foodImage;
+
+    // this is for grabbing the list of ingredients that we have from the home screen
+    const { ingredients } = location.state || { ingredients: [] };
 
     useEffect(() => {
         if(foodId){
@@ -78,6 +82,16 @@ function FoodResultPage(){
 
     const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
 
+
+    // this function is for setting if you have those specific ingredients that you searched for on the home page
+    function getIngredientsUserHas(){
+        return uniqueIngredients.filter((ingredient) => ingredients.includes(ingredient));    
+    }
+
+    function getIngredientsUserNeeds(){
+        return uniqueIngredients.filter((ingredient) => !ingredients.includes(ingredient));
+    }
+
     return(
         <div>
             <h1>{recipe.name || 'Recipe Instructions'}</h1>
@@ -88,11 +102,16 @@ function FoodResultPage(){
                     <p key={index}>{instruction.step}</p>
                 </div>
             ))}
-            {uniqueIngredients.map((ingredient) => (
+            <h3>Has: </h3>
+            {getIngredientsUserHas().map((ingredient) => (
+                <p>{ ingredient }</p>
+            ))}
+            <h3>Needs: </h3>
+            {getIngredientsUserNeeds().map((ingredient) => (
                 <p>{ingredient}</p>
             ))}
         </div>
     );
 }
 
-export default FoodResultPage;
+export default FoodResultsIngredientsPage;

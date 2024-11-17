@@ -1,9 +1,12 @@
-import React, { ChangeEvent, ReactEventHandler, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../styles/Home.scss";
 
 function Home(){
     const [inputText, setInputText] = useState<string>("");
     const [ingredients, setIngredients] = useState<string[]>([]);
+
+    const navigate = useNavigate();
 
     function handleInput(event: ChangeEvent<HTMLInputElement>){
         setInputText(event.target.value);
@@ -23,10 +26,16 @@ function Home(){
         setIngredients([]);
     }
 
-    function searchIngredients(){
+    function searchIngredients(e: React.FormEvent){
+        e.preventDefault();
+        var ingredientQueryString = '';
         
+        for(let i = 0; i < ingredients.length; i++){
+            ingredientQueryString += ingredients[i] + ",+";
+        }
+        navigate(`/food-menu-ingredients?query=${ingredientQueryString}`, { state: { ingredients }});
     }
-    
+    console.log("ingredients ", ingredients);
     return(
         <div className="home-content">
             <section className="intro-section">
