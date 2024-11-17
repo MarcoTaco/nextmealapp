@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FoodSearchIngredientsPage from './FoodSearchIngredientsPage.js';
 import "../styles/Home.scss";
 
 function Home(){
@@ -34,10 +33,9 @@ function Home(){
         for(let i = 0; i < ingredients.length; i++){
             ingredientQueryString += ingredients[i] + ",+";
         }
-        
-        navigate(`/food-menu-ingredients?query=${ingredientQueryString}`);
+        navigate(`/food-menu-ingredients?query=${ingredientQueryString}`, { state: { ingredients }});
     }
-    
+    console.log("ingredients ", ingredients);
     return(
         <div className="home-content">
             <section className="intro-section">
@@ -60,7 +58,6 @@ function Home(){
                     </div>                    
                 </div>
             </section>
-            <FoodSearchIngredientsPage userIngredients={ingredients} />
         </div>
     )
 }

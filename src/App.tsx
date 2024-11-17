@@ -17,8 +17,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/food-menu" element={<FoodSearchPage />} />
         <Route path="/recipe/:foodId" element={<FoodResultPage />} />
-        <Route path="/food-menu-ingredients" element={<FoodSearchIngredientsPage userIngredients={[]} />} />
-        <Route path="/recipe-with-ingredients/:foodId" element={<FoodResultsIngredientsPage userIngredients={[]} />} />
+        <Route path="/food-menu-ingredients" element={<FoodSearchIngredientsPage />} />
+        <Route path="/recipe-with-ingredients/:foodId" element={<FoodResultsIngredientsPage />} />
       </Routes>
     </Router>
   )

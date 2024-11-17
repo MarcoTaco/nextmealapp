@@ -18,16 +18,12 @@ interface RecipeInstructions {
     steps: RecipeInstructionsData[];
 }
 
-interface RecipeInstructionsProp {
-    userIngredients: string[];
-}
 
-function FoodResultsIngredientsPage({userIngredients}: RecipeInstructionsProp){
+
+function FoodResultsIngredientsPage(){
     const[recipe, setRecipe] = useState<RecipeInstructions | null>(null);
     const[loading, setLoading] = useState<boolean>(true);
     const[error, setError] = useState<string | null>(null);
-
-    console.log(userIngredients);
     
     // i imagine we'll need a way to pass id from the foodsearchpage file so we know which one to look for
     // putting random number for now.
@@ -38,6 +34,9 @@ function FoodResultsIngredientsPage({userIngredients}: RecipeInstructionsProp){
     const { foodId } = useParams<{ foodId: string }>();
 
     const foodImage = location.state?.foodImage;
+
+    // this is for grabbing the list of ingredients that we have from the home screen
+    const { ingredients } = location.state || { ingredients: [] };
 
     useEffect(() => {
         if(foodId){

@@ -3,7 +3,6 @@ import { fetchRecipesWhole } from '../services/SpoonacularCall.js';
 import SearchFoodBtn from '../components/SearchFoodBtn.js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/FoodSearchPage.scss';
-import FoodResultsIngredientsPage from './FoodResultsIngredientsPage.js';
 
 interface WholeRecipe{
     id: number,
@@ -11,21 +10,20 @@ interface WholeRecipe{
     image: string
 };
 
-interface IngredientsProp{
-    userIngredients: string[];
-}
 
-function FoodSearchIngredientsPage({userIngredients}: IngredientsProp){
+function FoodSearchIngredientsPage(){
     const [searchText, setSearchText] = useState<string>("");
 
     const [recipes, setRecipes] = useState<WholeRecipe[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     
-    console.log(userIngredients);
     // new stuff
     const location = useLocation();
     const query = new URLSearchParams(location.search).get('query') || '';
+
+     // this is for grabbing the list of ingredients that we have from the home screen
+    const { ingredients } = location.state || { ingredients: []};
 
     useEffect(() =>{
         const getRecipes = async () => {
@@ -46,9 +44,10 @@ function FoodSearchIngredientsPage({userIngredients}: IngredientsProp){
 
     const navigate = useNavigate();
 
-    // this function is for when we click on an image to map their id to the recipe page
+    // this function is for when we click on an image to map their id to the recipe page, as well as the list of the ingredients
+    // we have.
     function handleImageClick(foodId: number, foodImage: string){
-        navigate(`/recipe-with-ingredients/${foodId}`, { state: {foodImage} });
+        navigate(`/recipe-with-ingredients/${foodId}`, { state: { foodImage, ingredients }});
     }
 
     // in here goes the search text for searching foods. but by the filter stuff
@@ -64,7 +63,6 @@ function FoodSearchIngredientsPage({userIngredients}: IngredientsProp){
 
     return(
         <div>
-            {/* <FoodResultsIngredientsPage userIngredients={ingredients} /> */}
             <h1>Recipe Search Results</h1>
             <div className="result-section">
                 <div className="result-filter-section">
@@ -94,9 +92,9 @@ function FoodSearchIngredientsPage({userIngredients}: IngredientsProp){
                 </div>
                 <div className="result-grid">
                     {recipes.map((recipe) => (
-                        <div className="result">
-                            <img src={recipe.image} onClick={() => (handleImageClick(recipe.id, recipe.image))} alt={recipe.title} data-id={recipe.id}></img>
-                            <p>{recipe.title}</p>
+                        <div className="result" data-id={ recipe.id }>
+                            <img src={ recipe.image } onClick={() => (handleImageClick( recipe.id, recipe.image ))} alt={ recipe.title } data-id={ recipe.id }></img>
+                            <p>{ recipe.title }</p>
                         </div>
                     ))}
                 </div>
