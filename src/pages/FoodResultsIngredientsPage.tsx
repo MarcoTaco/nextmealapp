@@ -80,12 +80,17 @@ function FoodResultsIngredientsPage(){
         return Array.from(ingredientsMap.values());
     }
 
-    // this function is for setting if you have those specific ingredients that you searched for on the home page
-    function ingredientChecklist(){
+    const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
 
+
+    // this function is for setting if you have those specific ingredients that you searched for on the home page
+    function getIngredientsUserHas(){
+        return uniqueIngredients.filter((ingredient) => ingredients.includes(ingredient));    
     }
 
-    const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
+    function getIngredientsUserNeeds(){
+        return uniqueIngredients.filter((ingredient) => !ingredients.includes(ingredient));
+    }
 
     return(
         <div>
@@ -97,7 +102,12 @@ function FoodResultsIngredientsPage(){
                     <p key={index}>{instruction.step}</p>
                 </div>
             ))}
-            {uniqueIngredients.map((ingredient) => (
+            <h3>Has: </h3>
+            {getIngredientsUserHas().map((ingredient) => (
+                <p>{ ingredient }</p>
+            ))}
+            <h3>Needs: </h3>
+            {getIngredientsUserNeeds().map((ingredient) => (
                 <p>{ingredient}</p>
             ))}
         </div>
