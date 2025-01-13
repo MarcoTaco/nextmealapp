@@ -44,7 +44,7 @@ function Home(){
                 </div>
                 <div className="search-content">
                     <div className="search-bar">
-                        <input type="text" value={inputText} onChange={handleInput} placeholder="Max 5 Ingredients"/>
+                        <input type="text" value={inputText} onChange={handleInput} placeholder="Max 10 Ingredients"/>
                         <button onClick={handleAdd}>Add Ingredient</button>
                         <button onClick={searchIngredients}>Search</button>
                         <button onClick={handleClear}>Clear</button> 
