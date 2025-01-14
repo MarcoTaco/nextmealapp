@@ -1,10 +1,7 @@
 $primaryColor: #77DD77;
 $secondaryColor: #F6F6D8;
+$thirdColor: #FFC067;
 
-*{
-    padding: 0;
-    margin: 0;
-}
 *{
     padding: 0;
     margin: 0;
@@ -12,23 +9,75 @@ $secondaryColor: #F6F6D8;
 li{
     list-style: none;
 }
-// most phones
-@media(max-width: 576px){
-
+.intro-section{
+    background-color: gray;
+    width: 100%;
 }
-// smaller screens
-@media(min-width: 577px){
-
+// most phones
+@media(max-width: 767px){
+    .intro-section{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+        .intro-txt{
+            padding-bottom: 0px;
+            text-align: center;
+            h3{
+                padding-bottom: 5px;
+            }
+            h5{
+                padding: 10px 0px;
+            }
+        }
+        .search-content{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .search-bar{
+                height: 150px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                input{
+                    border-radius: 15px;
+                    border: 1px solid $primaryColor;
+                    padding: 15px 50px 15px 15px;
+                }
+                button{
+                    width: 80%;
+                    margin-right: auto;
+                    margin-left: auto;
+                    border-radius: 15px;
+                    padding: 5px 25px;
+                    border: 1px solid $thirdColor;
+                }
+            }
+            .search-display{
+                width: 100%;
+                ul{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    li{
+                        padding: 5px 15px;
+                        margin-top: 2px;
+                        background-color: $secondaryColor;
+                        color: black; 
+                        border-radius: 10px;
+                        width: fit-content;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
 }
 // medium sized screens
 @media(min-width: 768px){
-
-}
-// laptops and bigger
-@media(min-width: 992px){
-
-}
-@media(min-width: 1200px){
     .intro-section{
         background-color: gray;
         height: 80vh;
@@ -40,6 +89,13 @@ li{
         .intro-txt{
             padding-bottom: 15px;
             font-size: 26px;
+            text-align: center;
+            h3{
+                padding-bottom: 15px;
+            }
+            h5{
+                padding: 10px 0px;
+            }
         }
         .search-content{
             display: flex;
@@ -48,23 +104,23 @@ li{
             align-items: center;
             .search-bar{
                 input{
+                    text-indent: 10px;
                     margin-right: 5px;
                     border-radius: 15px;
                     border: 1px solid $primaryColor;
-                    padding: 15px 50px;
+                    padding: 15px 50px 15px 15px;
                     font-size: 20px;
                 }
                 button{
                     margin: 0px 5px;
                     border-radius: 15px;
-                    border: 1px solid $secondaryColor;
+                    border: 1px solid $thirdColor;
                     padding: 15px 25px;
                     font-size: 14px;
                 }
             }
             .search-display{
                 width: 100%;
-                // test
                 ul{
                     display: flex;
                     flex-direction: row;
@@ -73,7 +129,7 @@ li{
                         padding: 10px 15px;
                         margin: 10px 15px;
                         font-size: 20px;
-                        background-color: #FFC067;
+                        background-color: $secondaryColor;
                         color: black; 
                         border-radius: 15px;
                     }
@@ -81,7 +137,4 @@ li{
             }
         }
     }
-}
-@media(min-width: 1400px){
-
 }

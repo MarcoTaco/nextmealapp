@@ -41,6 +41,7 @@ function Home(){
             <section className="intro-section">
                 <div className="intro-txt">
                     <h3>Let's figure out your next meal!</h3>
+                    <h5>Enter each ingredient in the text box and add up to 10. Click "Search" to get some new ingredients!</h5>
                 </div>
                 <div className="search-content">
                     <div className="search-bar">
