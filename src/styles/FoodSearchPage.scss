@@ -24,9 +24,14 @@ $thirdColor: #FFC067;
             }
             .searchForm{
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
+                flex-wrap: wrap;
                 justify-content: flex-start;
                 label{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    white-space: nowrap;
                     margin-bottom: 10px;
                     margin-left: 10px;
                 }
@@ -37,12 +42,12 @@ $thirdColor: #FFC067;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding-top: 10px;
             .result{
                 display: flex;
                 flex-direction: column;
                 p{
-                    text-align: left;
+                    text-align: center;
                 }
             }
             img{
