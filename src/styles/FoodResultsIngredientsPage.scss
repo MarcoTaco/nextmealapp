@@ -1,0 +1,15 @@
+$primaryColor: #77DD77;
+$secondaryColor: #F6F6D8;
+$thirdColor: #FFC067;
+
+@media(max-width: 767px){
+
+}
+@media(min-width: 768px){
+    .recipe-inventory{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+}
