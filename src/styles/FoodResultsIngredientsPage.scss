@@ -29,6 +29,9 @@ $thirdColor: #FFC067;
                 justify-content: center;
                 margin-top: 50px;
                 margin-bottom: 50px;
+                img{
+                    width: 25%;
+                }
             }
             .ingredients-section{
                 width: 80%;
@@ -58,31 +61,58 @@ $thirdColor: #FFC067;
                     }
                 }
             }
-            .recipe-inventory{
+            .has-need-section{
                 width: 80%;
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: flex-start;
-                margin-top: 50px;
-                .has-recipe{
-                    width: 50%;
-                    .has-header{
-                        color: green;
+                margin-left: auto;
+                margin-right: auto;
+                .recipe-inventory{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: flex-start;
+                    margin-top: 50px;
+                    padding-bottom: 150px;
+                    .has-recipe{
+                        width: 50%;
+                        .has-header{
+                            color: green;
+                        }
+                        .has-ingredients{
+                            width: 50%;
+                            margin-left: auto;
+                            margin-right: auto;
+                            padding-left: 55px;
+                            p{
+                                color: green;
+                            }
+                        }
                     }
-                }
-                .needs-recipe{
-                    width: 50%;
-                    .needs-header{
-                        color: red;
+                    .needs-recipe{
+                        width: 50%;
+                        .needs-header{
+                            color: red;
+                        }
+                        .needs-ingredients{
+                            width: 50%;
+                            margin-left: auto;
+                            margin-right: auto;
+                            padding-left: 55px;
+                            p{
+                                color: red;
+                            }
+                        }
                     }
-                }
-                h3{
-                    font-size: 26px;
-                    text-decoration: underline;
-                }
-                p{
-                    font-size: 22px;
+                    .ingredient-need{
+                        width: 80%;
+                    }
+                    h3{
+                        font-size: 26px;
+                        text-decoration: underline;
+                        text-align: center;
+                    }
+                    p{
+                        font-size: 20px;
+                    }
                 }
             }
         }

@@ -108,21 +108,27 @@ function FoodResultsIngredientsPage(){
                         </div>
                     ))}
                 </div>
-                <div className="recipe-inventory">
-                    <div className="has-recipe">
-                        <div className="has-header">
-                            <h3>Has:</h3>
-                            {getIngredientsUserHas().map((ingredient) => (
-                                <p className="ingredient-has">{ ingredient }</p>
-                            ))}
+                <div className="has-need-section">
+                    <div className="recipe-inventory">
+                        <div className="has-recipe">
+                            <div className="has-header">
+                                <h3>Has:</h3>
+                            </div>
+                            <div className="has-ingredients">
+                                {getIngredientsUserHas().map((ingredient) => (
+                                    <p className="ingredient-has">{ ingredient }</p>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                    <div className="needs-recipe">
-                        <div className="needs-header">
-                            <h3 className="needs-header">Needs: </h3>
-                            {getIngredientsUserNeeds().map((ingredient) => (
-                                <p className="ingredient-need">{ingredient}</p>
-                            ))}
+                        <div className="needs-recipe">
+                            <div className="needs-header">
+                                <h3 className="needs-header">Needs: </h3>
+                            </div>
+                            <div className="needs-ingredients">
+                                {getIngredientsUserNeeds().map((ingredient) => (
+                                    <p className="ingredient-need">{ingredient}</p>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
