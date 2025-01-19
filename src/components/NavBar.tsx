@@ -26,8 +26,8 @@ function NavBar(){
                 </div>
                 <div className="nav-other-choices">
                     <ul>
-                        <li>Login</li>
                         <li><SearchFoodBtn /></li>
+                        <li>Login</li>
                     </ul>
                 </div>
             </div>
