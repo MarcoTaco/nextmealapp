@@ -29,6 +29,7 @@ function NavBar(){
                         <li><SearchFoodBtn /></li>
                         <li>Login</li>
                     </ul>
+                    {/* test */}
                 </div>
             </div>
         </div>
