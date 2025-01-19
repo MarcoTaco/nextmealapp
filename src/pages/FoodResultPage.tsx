@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchRecipeInstructions } from '../services/SpoonacularCall.js';
 import { useParams, useLocation } from "react-router-dom";
+import '../styles/FoodResultPage.scss';
 
 interface RecipeInstructionsData{
     // ingredients are the ingredient for each step.
@@ -79,18 +80,31 @@ function FoodResultPage(){
     const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
 
     return(
-        <div>
-            <h1>{recipe.name || 'Recipe Instructions'}</h1>
-            { foodImage && <img src={foodImage} /> }
-            {recipe.steps?.map((instruction, index) => (
-                <div className="ingredient-step">
-                    <p key={index}>Step {instruction.number}</p>
-                    <p key={index}>{instruction.step}</p>
+        <div className="main-recipe-results">
+            <div className="recipe-results-section">
+                <div className="results-header">
+                    <h1>{recipe.name || 'Recipe Instructions'}</h1>
                 </div>
-            ))}
-            {uniqueIngredients.map((ingredient) => (
-                <p>{ingredient}</p>
-            ))}
+                <div className="header-img">
+                    { foodImage && <img src={foodImage} /> }
+                </div>
+                <div className="ingredients-section">
+                    {recipe.steps?.map((instruction, index) => (
+                        <div className="ingredient-directions">
+                            <h4 className="instruction-step" key={index}>Step {instruction.number}</h4>
+                            <p className="instruction-detail" key={index}>{instruction.step}</p>
+                        </div>
+                    ))}
+                </div>
+                <div className="list-ingredients">
+                    <div className="ingredients-header">
+                        <h3>Ingredients Needed:</h3>
+                    </div>
+                    {uniqueIngredients.map((ingredient) => (
+                        <p className="ingredients">{ingredient}</p>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }
