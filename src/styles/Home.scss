@@ -1,11 +1,5 @@
-$primaryColor: #77DD77;
-$secondaryColor: #F6F6D8;
-$thirdColor: #FFC067;
+@import './global.scss';
 
-*{
-    padding: 0;
-    margin: 0;
-}
 li{
     list-style: none;
 }

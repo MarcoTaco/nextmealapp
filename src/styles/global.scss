@@ -1,0 +1,21 @@
+// this file include global styling rules and variables
+
+$primaryColor: #77DD77;
+$secondaryColor: #F6F6D8;
+$thirdColor: #FFC067;
+
+// $fontFamily: 'something'; will replace when i realize what font style i want to use.
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    min-height: 100%;
+}
+

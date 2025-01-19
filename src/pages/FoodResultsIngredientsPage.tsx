@@ -122,7 +122,7 @@ function FoodResultsIngredientsPage(){
                         </div>
                         <div className="needs-recipe">
                             <div className="needs-header">
-                                <h3 className="needs-header">Needs: </h3>
+                                <h3>Need:</h3>
                             </div>
                             <div className="needs-ingredients">
                                 {getIngredientsUserNeeds().map((ingredient) => (

@@ -1,10 +1,5 @@
-$primaryColor: #77DD77;
-$secondaryColor: #F6F6D8;
+@import './global.scss';
 
-*{
-    padding: 0;
-    margin: 0;
-}
 li{
     list-style: none;
 }
@@ -14,7 +9,6 @@ h1{
 // most phones
 @media(max-width: 767px){
     .header-section{
-        height: 15vh;
         width: 100%;
         background-color: $primaryColor;
         .nav-bar{
@@ -28,7 +22,6 @@ h1{
 // laptops and above screens
 @media(min-width: 768px){
     .header-section{
-        height: 15vh;
         width: 100%;
         background-color: $primaryColor;
         .nav-bar{

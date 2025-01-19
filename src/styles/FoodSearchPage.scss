@@ -1,6 +1,4 @@
-$primaryColor: #77DD77;
-$secondaryColor: #F6F6D8;
-$thirdColor: #FFC067;
+@import './global.scss';
 
 @media(max-width: 767px){
     .result-section{
