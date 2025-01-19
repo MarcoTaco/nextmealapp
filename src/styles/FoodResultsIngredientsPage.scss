@@ -1,0 +1,214 @@
+@import './global.scss';
+
+body{
+    background-color: $secondaryColor;
+}
+
+@media(max-width: 767px){
+    .main-recipe-results{
+        .recipe-results-section{
+            width: 90%;
+            margin-right: auto;
+            margin-left: auto;
+            padding-top: 50px;
+            .results-header{
+                margin-right: auto;
+                margin-left: auto;
+                border-radius: 50px 50px 0px 0px;
+                background-color: $thirdColor;
+                padding: 20px 0px;
+                h1{
+                    text-align: center;
+                }
+            }
+            .header-img{
+                display: flex;
+                justify-content: center;
+                margin-top: 25px;
+                margin-bottom: 25px;
+            }
+            .ingredients-section{
+                .ingredient-directions{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                    h4{
+                        font-size: 26px;
+                    }
+                    p{
+                        font-size: 18px;
+                    }
+                }
+            }
+            .has-need-section{
+                .recipe-inventory{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: flex-start;
+                    margin-top: 50px;
+                    padding-bottom: 150px;
+                    .has-recipe{
+                        width: 50%;
+                        .has-header{
+                            color: green;
+                            width: 90%;
+                            margin-right: auto;
+                            margin-left: auto;
+                            border-bottom: 1px solid green;
+                        }
+                        .has-ingredients{
+                            width: 60%;
+                            margin-left: auto;
+                            margin-right: auto;
+                            p{
+                                color: green;
+                            }
+                        }
+                    }
+                    .needs-recipe{
+                        width: 50%;
+                        .needs-header{
+                            color: red;
+                            width: 90%;
+                            margin-right: auto;
+                            margin-left: auto;
+                            border-bottom: 1px solid red;
+                        }
+                        .needs-ingredients{
+                            width: 60%;
+                            margin-left: auto;
+                            margin-right: auto;
+                            p{
+                                color: red;
+                            }
+                        }
+                    }
+                    .ingredient-need{
+                        width: 80%;
+                    }
+                    h3{
+                        font-size: 26px;
+                        text-align: center;
+                    }
+                    p{
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(min-width: 768px){
+    .main-recipe-results{
+        .recipe-results-section{
+            width: 90%;
+            margin-right: auto;
+            margin-left: auto;
+            padding-top: 50px;
+            .results-header{
+                width: 80%;
+                margin-right: auto;
+                margin-left: auto;
+                border-radius: 50px 50px 0px 0px;
+                background-color: $thirdColor;
+                padding: 20px 0px;
+                h1{
+                    text-align: center;
+                }
+            }
+            .header-img{
+                display: flex;
+                justify-content: center;
+                margin-top: 50px;
+                margin-bottom: 50px;
+                img{
+                    width: 25%;
+                }
+            }
+            .ingredients-section{
+                width: 80%;
+                margin-right: auto;
+                margin-left: auto;
+                .ingredient-directions{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    padding-top: 20px;
+                    padding-bottom: 20px;
+                    padding-right: 50px;
+                    .instruction-step{
+                        width: 20%;
+                        text-align: center;
+                    }
+                    .instruction-detail{
+                        width: 80%;
+                        text-align: left;
+                    }
+                    h4{
+                        font-size: 26px;
+                    }
+                    p{
+                        font-size: 18px;
+                    }
+                }
+            }
+            .has-need-section{
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+                .recipe-inventory{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: flex-start;
+                    margin-top: 50px;
+                    padding-bottom: 150px;
+                    .has-recipe{
+                        width: 50%;
+                        .has-header{
+                            color: green;
+                        }
+                        .has-ingredients{
+                            width: 30%;
+                            margin-left: auto;
+                            margin-right: auto;
+                            p{
+                                color: green;
+                            }
+                        }
+                    }
+                    .needs-recipe{
+                        width: 50%;
+                        .needs-header{
+                            color: red;
+                        }
+                        .needs-ingredients{
+                            width: 30%;
+                            margin-left: auto;
+                            margin-right: auto;
+                            p{
+                                color: red;
+                            }
+                        }
+                    }
+                    .ingredient-need{
+                        width: 80%;
+                    }
+                    h3{
+                        font-size: 26px;
+                        text-decoration: underline;
+                        text-align: center;
+                    }
+                    p{
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+}

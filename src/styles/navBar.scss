@@ -1,32 +1,27 @@
-$primaryColor: #77DD77;
-$secondaryColor: #F6F6D8;
+@import './global.scss';
 
-*{
-    padding: 0;
-    margin: 0;
-}
 li{
     list-style: none;
 }
+h1{
+    color: gray;
+}
 // most phones
-@media(max-width: 576px){
-
-}
-// smaller screens
-@media(min-width: 577px){
-
-}
-// medium sized screens
-@media(min-width: 768px){
-
-}
-// laptops and bigger
-@media(min-width: 992px){
-
-}
-@media(min-width: 1200px){
+@media(max-width: 767px){
     .header-section{
-        height: 15vh;
+        width: 100%;
+        background-color: $primaryColor;
+        .nav-bar{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+    }
+}
+// laptops and above screens
+@media(min-width: 768px){
+    .header-section{
         width: 100%;
         background-color: $primaryColor;
         .nav-bar{
@@ -38,11 +33,6 @@ li{
                 ul{
                     display: flex;
                     flex-direction: column;
-                }
-           }
-           .nav-brand{
-                h1{
-                    color: gray;
                 }
            }
            .nav-other-choices{

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { fetchRecipeInstructions } from '../services/SpoonacularCall.js';
+import { fetchRecipeInstructions } from "../services/SpoonacularCall.js";
 import { useParams, useLocation } from "react-router-dom";
+import "../styles/FoodResultsIngredientsPage.scss";
 
 interface RecipeInstructionsData{
     // ingredients are the ingredient for each step.
@@ -17,8 +18,6 @@ interface RecipeInstructions {
     name: string,
     steps: RecipeInstructionsData[];
 }
-
-
 
 function FoodResultsIngredientsPage(){
     const[recipe, setRecipe] = useState<RecipeInstructions | null>(null);
@@ -93,23 +92,47 @@ function FoodResultsIngredientsPage(){
     }
 
     return(
-        <div>
-            <h1>{recipe.name || 'Recipe Instructions'}</h1>
-            { foodImage && <img src={foodImage} /> }
-            {recipe.steps?.map((instruction, index) => (
-                <div className="ingredient-step">
-                    <p key={index}>Step {instruction.number}</p>
-                    <p key={index}>{instruction.step}</p>
+        <div className="main-recipe-results">
+            <div className="recipe-results-section">
+                <div className="results-header">
+                    <h1>{recipe.name || 'Recipe Instructions'}</h1>
                 </div>
-            ))}
-            <h3>Has: </h3>
-            {getIngredientsUserHas().map((ingredient) => (
-                <p>{ ingredient }</p>
-            ))}
-            <h3>Needs: </h3>
-            {getIngredientsUserNeeds().map((ingredient) => (
-                <p>{ingredient}</p>
-            ))}
+                <div className="header-img">
+                    { foodImage && <img className="food-img" src={foodImage} /> }
+                </div>
+                <div className="ingredients-section">
+                    {recipe.steps?.map((instruction, index) => (
+                        <div className="ingredient-directions">
+                            <h4 className="instruction-step" key={index}>Step {instruction.number}</h4>
+                            <p className="instruction-detail" key={index}>{instruction.step}</p>
+                        </div>
+                    ))}
+                </div>
+                <div className="has-need-section">
+                    <div className="recipe-inventory">
+                        <div className="has-recipe">
+                            <div className="has-header">
+                                <h3>Has:</h3>
+                            </div>
+                            <div className="has-ingredients">
+                                {getIngredientsUserHas().map((ingredient) => (
+                                    <p className="ingredient-has">{ ingredient }</p>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="needs-recipe">
+                            <div className="needs-header">
+                                <h3>Need:</h3>
+                            </div>
+                            <div className="needs-ingredients">
+                                {getIngredientsUserNeeds().map((ingredient) => (
+                                    <p className="ingredient-need">{ingredient}</p>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
