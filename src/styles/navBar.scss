@@ -6,7 +6,7 @@ li{
 h1{
     color: gray;
 }
-// most phones
+
 @media(max-width: 767px){
     .header-section{
         width: 100%;
@@ -19,7 +19,6 @@ h1{
         }
     }
 }
-// laptops and above screens
 @media(min-width: 768px){
     .header-section{
         width: 100%;
@@ -27,20 +26,39 @@ h1{
         .nav-bar{
            display: flex;
            flex-direction: row;
-           justify-content: space-evenly;
+           justify-content: space-around;
            align-items: center;
-           .nav-links{
-                ul{
-                    display: flex;
-                    flex-direction: column;
-                }
-           }
+           height: 8vh;
            .nav-other-choices{
+                display: flex;
+                flex-direction: row;
+                .search-food-btn-container{
+                    .search-food-btn{
+                        input{
+                            border-radius: 15px;
+                            border: 1px solid $primaryColor;
+                            padding: 10px 200px 10px 15px;
+                        }
+                        button{
+                            margin-left: 10px;
+                            border-radius: 15px;
+                            padding: 8px 25px;
+                            border: 1px solid $thirdColor;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+            .nav-links{
                 ul{
                     display: flex;
                     flex-direction: row;
+                    li{
+                        margin-left: 5px;
+                        margin-right: 5px;
+                    }
                 }
-           }
+            }
         }
     }
 }
