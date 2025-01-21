@@ -14,8 +14,48 @@ h1{
         .nav-bar{
             display: flex;
             flex-direction: row;
-            justify-content: space-evenly;
-            align-items: center;
+        }
+        .hamburger-icon{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            .bar{
+                width: 25px;
+                height: 3px;
+                background-color: white;
+            }
+        }
+        .search-food-btn-container{
+            .search-food-btn{
+                input{
+                    border-radius: 15px;
+                    border: 1px solid $primaryColor;
+                    padding: 10px 100px 10px 15px;
+                }
+                button{
+                    margin-left: 10px;
+                    border-radius: 15px;
+                    padding: 8px 25px;
+                    border: 1px solid $thirdColor;
+                    cursor: pointer;
+                }
+            }
+        }
+        .mobile-nav-links{
+            position: absolute;
+            top: 60px;
+            right: 10px;
+            background-color: $thirdColor;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+
+    .header-section{
+        .desktop{
+            display: none;
         }
     }
 }
@@ -59,6 +99,11 @@ h1{
                     }
                 }
             }
+        }
+    }
+    .header-section{
+        .mobile{
+            display: none;
         }
     }
 }
