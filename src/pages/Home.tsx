@@ -25,7 +25,7 @@ function Home(){
     function handleClear(){
         setIngredients([]);
     }
-    // test push to github
+    // one more test
     function searchIngredients(e: React.FormEvent){
         e.preventDefault();
         var ingredientQueryString = '';
