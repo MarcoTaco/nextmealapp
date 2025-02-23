@@ -35,7 +35,7 @@ function Home(){
         }
         navigate(`/food-menu-ingredients?query=${ingredientQueryString}`, { state: { ingredients }});
     }
-    console.log("ingredients ", ingredients);
+    
     return(
         <div className="home-content">
             <section className="intro-section">

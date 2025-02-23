@@ -44,8 +44,8 @@ h1{
         }
         .mobile-nav-links{
             position: absolute;
-            top: 60px;
-            right: 10px;
+            top: 0px;
+            left: 0px;
             background-color: $thirdColor;
             display: flex;
             flex-direction: column;
