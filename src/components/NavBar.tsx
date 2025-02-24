@@ -51,16 +51,22 @@ function NavBar(){
             
             <div className="header-section">
                 <nav className="nav-bar mobile">
-                    <button className="hamburger-icon" onClick={toggleHamburger}>
-                        <span className="bar"></span>
-                        <span className="bar"></span>
-                        <span className="bar"></span>
-                    </button>
-                    <div className="nav-brand">
-                        <h1><Link to="/">Next Meal</Link></h1>
+                    <div className="top-row">
+                        <div className="hamburger">
+                            <button className="hamburger-icon" onClick={toggleHamburger}>
+                                <span className="bar"></span>
+                                <span className="bar"></span>
+                                <span className="bar"></span>
+                            </button>
+                        </div>
+                        <div className="nav-brand">
+                            <h1><Link to="/">Next Meal</Link></h1>
+                        </div>
                     </div>
-                    <div className="nav-other-choices">
-                        <SearchFoodBtn />
+                    <div className="bottom-row">
+                        <div className="nav-other-choices">
+                            <SearchFoodBtn />
+                        </div>
                     </div>
                     {menuOpen && (
                         <div className="hamburger-menu" ref={hamburgerMenuRef}>
