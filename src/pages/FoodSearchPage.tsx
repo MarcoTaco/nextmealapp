@@ -4,13 +4,13 @@ import SearchFoodBtn from '../components/SearchFoodBtn.js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/FoodSearchPage.scss';
 
-interface WholeRecipe{
+interface WholeRecipe {
     id: number,
     title: string,
     image: string
 };
 
-function FoodSearchPage(){    
+function FoodSearchPage() {    
     const [searchText, setSearchText] = useState<string>("");
 
     const [recipes, setRecipes] = useState<WholeRecipe[]>([]);
@@ -36,20 +36,13 @@ function FoodSearchPage(){
         };
 
         getRecipes();
-    }, []);
+    }, [location.search]);
 
     const navigate = useNavigate();
 
     // this function is for when we click on an image to map their id to the recipe page
-    function handleImageClick(foodId: number, foodImage: string){
+    function handleImageClick(foodId: number, foodImage: string) {
         navigate(`/recipe/${foodId}`, { state: {foodImage} });
-    }
-    // in here goes the search text for searching foods. but by the filter stuff
-    function handleSearchText(){
-
-    }
-    function clickSearch(){
-
     }
 
     if(loading) return <p>Loading...</p>;

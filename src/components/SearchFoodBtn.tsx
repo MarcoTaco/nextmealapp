@@ -9,15 +9,21 @@ function SearchFoodBtn(){
     // find out what navigate is
     const navigate = useNavigate();
 
-    function handleSearchFood(e: React.FormEvent){
-        e.preventDefault();
+    function handleSearchFood(e?: React.FormEvent) {
+        if(e) e.preventDefault();
         navigate(`/food-menu?query=${searchFoodTxt}`);
+        setSearchFoodTxt("");
     }
 
+    function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
+        if(event.key === "Enter"){
+            handleSearchFood();
+        }
+    }
     return(
         <div className="search-food-btn-container">
             <div className="search-food-btn">
-                <input type="text" value={searchFoodTxt} onChange={(e) => setSearchFoodTxt(e.target.value)} placeholder="Search Food" />
+                <input type="text" value={searchFoodTxt} onChange={(e) => setSearchFoodTxt(e.target.value)} onKeyDown={handleEnter} placeholder="Search Food" />
                 <button onClick={handleSearchFood}>Search</button>
             </div>
         </div>
