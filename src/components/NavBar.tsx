@@ -1,37 +1,92 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SearchFoodBtn from './SearchFoodBtn.js';
 import '../styles/navBar.scss';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function NavBar(){
-    const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const hamburgerMenuRef = useRef<HTMLDivElement>(null);
 
-    function handleHomeClick(){
-        navigate('/');
-    }
-    
+    function toggleHamburger() {
+        setMenuOpen(!menuOpen);
+    }  
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if(hamburgerMenuRef.current && !hamburgerMenuRef.current.contains(event.target as Node)) {
+                setMenuOpen(false);
+            }
+        }
+
+        if(menuOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+    }, [menuOpen]);
+
     return(
-        <div className="header-section">
-            <div className="nav-bar">
-                <div className="nav-links">
-                    <ul>
-                        <li onClick={handleHomeClick} style={{cursor: 'pointer'}}>Home</li>
-                        <li>Food Menu</li>
-                        <li>About</li>
-                        <li>Other</li>
-                    </ul>
-                </div>
-                <div className="nav-brand">
-                    <h1 onClick={handleHomeClick} style={{cursor: 'pointer'}}>Next Meal</h1>
-                </div>
-                <div className="nav-other-choices">
-                    <ul>
-                        <li>Login</li>
-                        <li><SearchFoodBtn /></li>
-                    </ul>
-                </div>
+        <header>
+            <div className="header-section">
+                <nav className="nav-bar desktop">
+                    <div className="nav-brand">
+                        <h1><Link to="/">Next Meal</Link></h1>
+                    </div>
+                    <div className="nav-other-choices">
+                        <SearchFoodBtn />
+                    </div>
+                    <div className="nav-links">
+                        <ul>
+                            <li><Link to="/">Home</Link></li>
+                            <li>Food Menu</li>
+                            <li>About</li>
+                            <li>Other</li>
+                            <li>Login</li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
-        </div>
+            
+            <div className="header-section">
+                <nav className="nav-bar mobile">
+                    <div className="top-row">
+                        <div className="hamburger">
+                            <button className="hamburger-icon" onClick={toggleHamburger}>
+                                <span className="bar"></span>
+                                <span className="bar"></span>
+                                <span className="bar"></span>
+                            </button>
+                        </div>
+                        <div className="nav-brand">
+                            <h1><Link to="/">Next Meal</Link></h1>
+                        </div>
+                    </div>
+                    <div className="bottom-row">
+                        <div className="nav-other-choices">
+                            <SearchFoodBtn />
+                        </div>
+                    </div>
+                    {menuOpen && (
+                        <div className="hamburger-menu" ref={hamburgerMenuRef}>
+                            <ul className="mobile-nav-links">
+                                <li><Link to="/">Home</Link></li>
+                                <li><Link to="/">Food Menu</Link></li>
+                                <li><Link to="/">About</Link></li>
+                                <li><Link to="/">Other</Link></li>
+                                <li><Link to="/">Login</Link></li>
+                            </ul>
+                            <div className="hamburger-close">
+                                <button className="hamburger-close-icon" onClick={() => setMenuOpen(false)}>
+                                    <span className="x">x</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            </div>
+        </header>
     )
 }
 

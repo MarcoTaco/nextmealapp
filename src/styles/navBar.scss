@@ -6,7 +6,7 @@ li{
 h1{
     color: gray;
 }
-// most phones
+
 @media(max-width: 767px){
     .header-section{
         width: 100%;
@@ -14,12 +14,107 @@ h1{
         .nav-bar{
             display: flex;
             flex-direction: row;
-            justify-content: space-evenly;
-            align-items: center;
+        }
+        .nav-bar.mobile{
+            display: flex;
+            flex-direction: column;
+            .top-row{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding-left: 15px;
+                padding-right: 15px;
+                margin-bottom: 10px;
+            }
+            .top-row{
+                justify-content: space-between;
+                .nav-brand h1{
+                    font-size: 2em;
+                    a{
+                        text-decoration: none;
+                        color: black;
+                    }
+                }
+            }
+        }
+        .hamburger-icon{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            height: 30px;
+            background-color: transparent;
+            border: none;
+            margin-top: 10px;
+            .bar{
+                width: 25px;
+                height: 3px;
+                border-radius: 10px;
+                background-color: white;
+            }
+        }
+        .hamburger-menu{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-color: $thirdColor;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            height: 100vh;
+            width: 60%;
+            .mobile-nav-links{
+                width: 80%;
+                padding-left: 15px;
+                li:first-child{
+                    margin-top: 60px;
+                }
+                li{
+                    margin-bottom: 35px;
+                    a{
+                        font-size: 1.5rem;
+                        text-decoration: none;
+                        color: black;
+                    }
+                }
+            }
+            .hamburger-close-icon{
+                background-color: transparent;
+                border: none;
+                .x{
+                    font-size: 1.5rem;
+                    color: black;
+                }
+            }
+        }
+        .search-food-btn-container{
+            .search-food-btn{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 15px;
+                input{
+                    border-radius: 15px;
+                    border: 1px solid $primaryColor;
+                    padding: 10px 40px 10px 15px;
+                }
+                button{
+                    margin-left: 10px;
+                    border-radius: 15px;
+                    padding: 8px 25px;
+                    border: 1px solid $thirdColor;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .header-section{
+        .desktop{
+            display: none;
         }
     }
 }
-// laptops and above screens
 @media(min-width: 768px){
     .header-section{
         width: 100%;
@@ -27,20 +122,44 @@ h1{
         .nav-bar{
            display: flex;
            flex-direction: row;
-           justify-content: space-evenly;
+           justify-content: space-around;
            align-items: center;
-           .nav-links{
-                ul{
-                    display: flex;
-                    flex-direction: column;
-                }
-           }
+           height: 8vh;
            .nav-other-choices{
+                display: flex;
+                flex-direction: row;
+                .search-food-btn-container{
+                    .search-food-btn{
+                        input{
+                            border-radius: 15px;
+                            border: 1px solid $primaryColor;
+                            padding: 10px 200px 10px 15px;
+                        }
+                        button{
+                            margin-left: 10px;
+                            border-radius: 15px;
+                            padding: 8px 25px;
+                            border: 1px solid $thirdColor;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+            .nav-links{
                 ul{
                     display: flex;
                     flex-direction: row;
+                    li{
+                        margin-left: 5px;
+                        margin-right: 5px;
+                    }
                 }
-           }
+            }
+        }
+    }
+    .header-section{
+        .mobile{
+            display: none;
         }
     }
 }
