@@ -2,11 +2,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import SearchFoodBtn from './SearchFoodBtn.js';
 import '../styles/navBar.scss';
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function NavBar(){
     const [menuOpen, setMenuOpen] = useState(false);
     const hamburgerMenuRef = useRef<HTMLDivElement>(null);
 
+    // creating login/logout button custom react hook, auth0 
+    const { loginWithRedirect } = useAuth0();
+    const { logout } = useAuth0();
+
+    // checking if a user is logged in 
+    const { user, isAuthenticated } = useAuth0();
+    
     function toggleHamburger() {
         setMenuOpen(!menuOpen);
     }  
@@ -43,7 +51,12 @@ function NavBar(){
                             <li>Food Menu</li>
                             <li>About</li>
                             <li>Other</li>
-                            <li>Login</li>
+                            {!isAuthenticated && (
+                                <li onClick={() => loginWithRedirect()}>Login</li>
+                            )}
+                            {isAuthenticated && (
+                                <li onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Logout</li>
+                            )}
                         </ul>
                     </div>
                 </nav>
@@ -75,7 +88,8 @@ function NavBar(){
                                 <li><Link to="/">Food Menu</Link></li>
                                 <li><Link to="/">About</Link></li>
                                 <li><Link to="/">Other</Link></li>
-                                <li><Link to="/">Login</Link></li>
+                                <li onClick={() => loginWithRedirect()}>Login</li>
+                                <li onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Logout</li>
                             </ul>
                             <div className="hamburger-close">
                                 <button className="hamburger-close-icon" onClick={() => setMenuOpen(false)}>
