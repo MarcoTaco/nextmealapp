@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { fetchRecipeInstructions } from "../services/SpoonacularCall.js";
 import { useParams, useLocation } from "react-router-dom";
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../services/Firebase.js';
 import "../styles/FoodResultsIngredientsPage.scss";
 
 interface RecipeInstructionsData{
@@ -23,10 +25,6 @@ function FoodResultsIngredientsPage(){
     const[recipe, setRecipe] = useState<RecipeInstructions | null>(null);
     const[loading, setLoading] = useState<boolean>(true);
     const[error, setError] = useState<string | null>(null);
-    
-    // i imagine we'll need a way to pass id from the foodsearchpage file so we know which one to look for
-    // putting random number for now.
-    // const id = 649722;
 
     const location = useLocation();
 
@@ -46,7 +44,6 @@ function FoodResultsIngredientsPage(){
 
                     setRecipe(data);
                 }catch(err){
-                    // console.error(err);
                     setError('Failed to get recipe instructions.');
                 }finally{
                     setLoading(false);
@@ -90,6 +87,15 @@ function FoodResultsIngredientsPage(){
     function getIngredientsUserNeeds(){
         return uniqueIngredients.filter((ingredient) => !ingredients.includes(ingredient));
     }
+
+    const saveRecipe = async (userId: string, recipe: { name: string, image: string }) => {
+        try{
+            await addDoc(collection(db, "users", userId, "recipes"), recipe);
+            console.log('recipe saved');
+        } catch(error) {
+            console.error("error: ", error);
+        }
+    };
 
     return(
         <div className="main-recipe-results">
