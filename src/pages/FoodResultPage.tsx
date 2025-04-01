@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchRecipeInstructions } from '../services/SpoonacularCall.js';
 import { useParams, useLocation } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
-import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../services/Firebase.js';
 import '../styles/FoodResultPage.scss';
 
@@ -22,30 +22,9 @@ interface RecipeInstructions {
     steps: RecipeInstructionsData[];
 }
 
-//this interface is what is going to be getting saved for each account
-interface SavedRecipeInformation {
-    foodId: string,
-    foodName: string,
-    foodImage?: string,
-    savedAt?: Date,
-    userId: string
-}
 
-const saveRecipe = async (savedRecipeInfo: SavedRecipeInformation, userId: string ) => {
-    try{
-        const docRef = await addDoc(collection(db, "userSavedRecipes"), {
-            ...savedRecipeInfo,
-            userId,
-            savedAt: new Date(),
-        });
-        
-        console.log("recipe has been saved: ", docRef.id);
-    } catch(error) {
-        console.error('error: ', error);
-    }
-}
 
-function FoodResultPage(savedRecipeInfo: SavedRecipeInformation){
+function FoodResultPage(){
     const[recipe, setRecipe] = useState<RecipeInstructions | null>(null);
     const[loading, setLoading] = useState<boolean>(true);
     const[error, setError] = useState<string | null>(null);
@@ -107,25 +86,41 @@ function FoodResultPage(savedRecipeInfo: SavedRecipeInformation){
 
     const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
 
-   
-    
-    const handleSaveClick = async () => {
-        if(!isAuthenticated || !user){
-            alert("Log in to start saving recipes!");
-            return;
+    const handleSaveClick = async (foodId: string, userId: string ) => {
+        try{
+            const docRef = await addDoc(collection(db, "userSavedRecipes"), {
+                foodId: foodId,
+                userId: userId,
+            });
+            
+            setIsSaved(true);
+            console.log("recipe has been saved: ", docRef.id);
+        } catch(error) {
+            console.log("something went wrong");
+            console.error('error: ', error);
         }
-
-        await saveRecipe(savedRecipeInfo, user.sub || "");
-        setIsSaved(true);
     }
 
+    const testClick = async () => {
+        try{
+            const doc = await addDoc(collection(db, "test"), {
+                test: "Hello World",
+                timestamp: new Date(),
+            });
+
+            console.log("good to go", doc.id);
+        } catch(error) {
+            console.error("error: ", error);
+        }
+    }
     return(
         <div className="main-recipe-results">
             <div className="recipe-results-section">
                 <div className="save-button">
-                    <button onClick={ handleSaveClick } value={ foodId } >
+                    <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") }>
                         { isSaved? 'Saved' : 'Save Recipe'}
                     </button>
+                    <button onClick={() => testClick()}>test</button>
                 </div>
                 <div className="results-header">
                     <h1>{recipe.name || 'Recipe Instructions'}</h1>
