@@ -101,18 +101,6 @@ function FoodResultPage(){
         }
     }
 
-    const testClick = async () => {
-        try{
-            const doc = await addDoc(collection(db, "test"), {
-                test: "Hello World",
-                timestamp: new Date(),
-            });
-
-            console.log("good to go", doc.id);
-        } catch(error) {
-            console.error("error: ", error);
-        }
-    }
     return(
         <div className="main-recipe-results">
             <div className="recipe-results-section">
@@ -120,7 +108,6 @@ function FoodResultPage(){
                     <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") }>
                         { isSaved? 'Saved' : 'Save Recipe'}
                     </button>
-                    <button onClick={() => testClick()}>test</button>
                 </div>
                 <div className="results-header">
                     <h1>{recipe.name || 'Recipe Instructions'}</h1>
