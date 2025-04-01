@@ -33,7 +33,7 @@ interface SavedRecipeInformation {
 
 const saveRecipe = async (savedRecipeInfo: SavedRecipeInformation, userId: string ) => {
     try{
-        const docRef = await addDoc(collection(db, "recipes"), {
+        const docRef = await addDoc(collection(db, "userSavedRecipes"), {
             ...savedRecipeInfo,
             userId,
             savedAt: new Date(),
