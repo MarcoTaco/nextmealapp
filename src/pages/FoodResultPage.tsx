@@ -32,6 +32,7 @@ function FoodResultPage(){
     const{ user, isAuthenticated } = useAuth0();
     const[isSaved, setIsSaved] = useState<boolean>(false);
 
+    const[savedDocId, setSavedDocId] = useState<string | null>(null);
     // i imagine we'll need a way to pass id from the foodsearchpage file so we know which one to look for
     // putting random number for now.
     // const id = 649722;
@@ -77,7 +78,14 @@ function FoodResultPage(){
             );
 
             const querySnapshot = await getDocs(foodExistsAlreadyQuery);
-            setIsSaved(!querySnapshot.empty);
+            if(!querySnapshot.empty) {
+                setIsSaved(true);
+                setSavedDocId(querySnapshot.docs[0].id);
+            }
+            else {
+                setIsSaved(false);
+                setSavedDocId(null);
+            }
         }
 
         checkIfSaved();
@@ -108,20 +116,24 @@ function FoodResultPage(){
     const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
 
     const handleSaveClick = async (foodId: string, userId: string ) => {
-        
-        // just in case a user is able to click on the button, it won't update the database.
-        // TODO: unsave button if the food is already saved on firebase
-        if(isSaved) {
-            return;
-        }
         try{
-            const docRef = await addDoc(collection(db, "userSavedRecipes"), {
-                foodId: foodId,
-                userId: userId,
-            });
-            
-            setIsSaved(true);
-            console.log("recipe has been saved: ", docRef.id);
+            if(savedDocId && isSaved) {
+                await deleteDoc(doc(db, "userSavedRecipes", savedDocId));
+                setIsSaved(false);
+                setSavedDocId(null);
+
+                alert("Recipe has been removed from your saves!");
+            }
+            else {
+                const docRef = await addDoc(collection(db, "userSavedRecipes"), {
+                    foodId: foodId,
+                    userId: userId,
+                });
+                setIsSaved(true);
+                setSavedDocId(docRef.id);
+
+                alert("Recipe has been saved!");
+            }
         } catch(error) {
             console.error('error: ', error);
         }
@@ -131,8 +143,8 @@ function FoodResultPage(){
         <div className="main-recipe-results">
             <div className="recipe-results-section">
                 <div className="save-button">
-                    <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") } disabled={ isSaved }>
-                        { isSaved? 'Already Saved' : 'Save Recipe'}
+                    <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") }>
+                        { isSaved? 'Unsave Recipe' : 'Save Recipe'}
                     </button>
                 </div>
                 <div className="results-header">
