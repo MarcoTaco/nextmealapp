@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchRecipeInstructions } from '../services/SpoonacularCall.js';
 import { useParams, useLocation } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../services/Firebase.js';
 import '../styles/FoodResultPage.scss';
 
@@ -62,6 +62,27 @@ function FoodResultPage(){
         }
     }, [foodId]);
 
+    // this useeffect is responsible for checking if a user has already saved the food that we are 
+    // currently looking at. if it exists, change the text on the button.
+    useEffect(() => {
+        const checkIfSaved = async () => {
+            if(!user) return;
+
+            // searching into firebase to make sure recipe doesn't exist by looking for the user id
+            // and food id
+            const foodExistsAlreadyQuery = query(
+                collection(db, "userSavedRecipes"),
+                where("userId", "==", user.sub),
+                where("foodId", "==", foodId)
+            );
+
+            const querySnapshot = await getDocs(foodExistsAlreadyQuery);
+            setIsSaved(!querySnapshot.empty);
+        }
+
+        checkIfSaved();
+    }, [foodId, user]);
+
     if(!recipe) return <h1>Loading...</h1>
 
     if(loading) return<h1>Loading...</h1>
@@ -87,6 +108,12 @@ function FoodResultPage(){
     const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
 
     const handleSaveClick = async (foodId: string, userId: string ) => {
+        
+        // just in case a user is able to click on the button, it won't update the database.
+        // TODO: unsave button if the food is already saved on firebase
+        if(isSaved) {
+            return;
+        }
         try{
             const docRef = await addDoc(collection(db, "userSavedRecipes"), {
                 foodId: foodId,
@@ -96,7 +123,6 @@ function FoodResultPage(){
             setIsSaved(true);
             console.log("recipe has been saved: ", docRef.id);
         } catch(error) {
-            console.log("something went wrong");
             console.error('error: ', error);
         }
     }
@@ -105,8 +131,8 @@ function FoodResultPage(){
         <div className="main-recipe-results">
             <div className="recipe-results-section">
                 <div className="save-button">
-                    <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") }>
-                        { isSaved? 'Saved' : 'Save Recipe'}
+                    <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") } disabled={ isSaved }>
+                        { isSaved? 'Already Saved' : 'Save Recipe'}
                     </button>
                 </div>
                 <div className="results-header">
