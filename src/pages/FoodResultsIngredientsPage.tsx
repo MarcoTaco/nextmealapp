@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { fetchRecipeInstructions } from "../services/SpoonacularCall.js";
-import { useParams, useLocation } from "react-router-dom";
-import { collection, addDoc } from 'firebase/firestore';
+import React, { useState, useEffect } from 'react';
+import { fetchRecipeInstructions } from '../services/SpoonacularCall.js';
+import { useParams, useLocation } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+import { collection, addDoc, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../services/Firebase.js';
 import "../styles/FoodResultsIngredientsPage.scss";
 
@@ -25,6 +26,11 @@ function FoodResultsIngredientsPage(){
     const[recipe, setRecipe] = useState<RecipeInstructions | null>(null);
     const[loading, setLoading] = useState<boolean>(true);
     const[error, setError] = useState<string | null>(null);
+
+    const{ user } = useAuth0();
+    const[isSaved, setIsSaved] = useState<boolean>(false);
+
+    const[saveDocId, setSaveDocId] = useState<string | null>(null);
 
     const location = useLocation();
 
@@ -53,6 +59,36 @@ function FoodResultsIngredientsPage(){
             getRecipeInstructions();
         }
     }, [foodId]);
+
+    // this useEffect is responsible for checking if a user has already 
+    // saved the food that we are currently looking at. if it exists, change
+    // the text to something else
+    useEffect(() => {
+        const checkIfSaved = async () => {
+            if(!user) return;
+
+            // searching into firebase to make sure recipe doesn't exist by looking
+            // at user and food id
+            const foodExistsAlreadyQuery = query(
+                collection(db, "userSavedRecipes"),
+                where("userId", "==", user.sub),
+                where("foodId", "==", foodId)
+            );
+
+            const querySnapshot = await getDocs(foodExistsAlreadyQuery);
+
+            if(!querySnapshot.empty) {
+                setIsSaved(true);
+                setSaveDocId(querySnapshot.docs[0].id);
+            }
+            else {
+                setIsSaved(false);
+                setSaveDocId(null);
+            }
+        }
+        
+        checkIfSaved();
+    }, [foodId, user]);
 
     if(!recipe) return <h1>Loading...</h1>
 
@@ -88,18 +124,39 @@ function FoodResultsIngredientsPage(){
         return uniqueIngredients.filter((ingredient) => !ingredients.includes(ingredient));
     }
 
-    const saveRecipe = async (userId: string, recipe: { name: string, image: string }) => {
+    const handleSaveClick = async (foodId: string, userId: string) => {
         try{
-            await addDoc(collection(db, "users", userId, "recipes"), recipe);
-            console.log('recipe saved');
+            if(saveDocId && isSaved){
+                await deleteDoc(doc(db, "userSavedRecipes", saveDocId));
+                setIsSaved(false);
+                setSaveDocId(null);
+
+                alert("Recipe has been removed from your saved recipes!");
+            }
+            else {
+                const docRef = await addDoc(collection(db, "userSavedRecipes"), {
+                    foodId: foodId,
+                    userId: userId,
+                });
+
+                setIsSaved(true);
+                setSaveDocId(docRef.id);
+
+                alert("Recipe has been saved!");
+            }
         } catch(error) {
             console.error("error: ", error);
         }
-    };
+    }
 
     return(
         <div className="main-recipe-results">
             <div className="recipe-results-section">
+                <div className="save-button">
+                    <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") }>
+                        { isSaved? 'Unsave Recipe' : "Save Recipe" }
+                    </button>
+                </div>
                 <div className="results-header">
                     <h1>{recipe.name || 'Recipe Instructions'}</h1>
                 </div>

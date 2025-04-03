@@ -29,13 +29,10 @@ function FoodResultPage(){
     const[loading, setLoading] = useState<boolean>(true);
     const[error, setError] = useState<string | null>(null);
 
-    const{ user, isAuthenticated } = useAuth0();
+    const{ user } = useAuth0();
     const[isSaved, setIsSaved] = useState<boolean>(false);
 
     const[savedDocId, setSavedDocId] = useState<string | null>(null);
-    // i imagine we'll need a way to pass id from the foodsearchpage file so we know which one to look for
-    // putting random number for now.
-    // const id = 649722;
 
     const location = useLocation();
 
@@ -78,6 +75,7 @@ function FoodResultPage(){
             );
 
             const querySnapshot = await getDocs(foodExistsAlreadyQuery);
+            
             if(!querySnapshot.empty) {
                 setIsSaved(true);
                 setSavedDocId(querySnapshot.docs[0].id);
@@ -144,7 +142,7 @@ function FoodResultPage(){
             <div className="recipe-results-section">
                 <div className="save-button">
                     <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") }>
-                        { isSaved? 'Unsave Recipe' : 'Save Recipe'}
+                        { isSaved? 'Unsave Recipe' : 'Save Recipe' }
                     </button>
                 </div>
                 <div className="results-header">
