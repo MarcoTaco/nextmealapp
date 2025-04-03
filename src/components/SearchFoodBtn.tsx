@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 function SearchFoodBtn(){
     const [searchFoodTxt, setSearchFoodTxt] = useState<string>('');
-    // find out what navigate is
     const navigate = useNavigate();
 
     function handleSearchFood(e?: React.FormEvent) {

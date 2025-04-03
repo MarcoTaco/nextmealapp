@@ -56,7 +56,7 @@ function Home(){
                                 <li key={index}>{text}</li>
                             ))}
                         </ul>
-                    </div>                    
+                    </div>    
                 </div>
             </section>
         </div>
