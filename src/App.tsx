@@ -7,6 +7,7 @@ import FoodSearchPage from './pages/FoodSearchPage.js';
 import FoodResultsIngredientsPage from './pages/FoodResultsIngredientsPage.js';
 import FoodSearchIngredientsPage from './pages/FoodSearchIngredientsPage.js';
 import FoodResultPage from './pages/FoodResultPage.js';
+import UserSavedFoods from './pages/UserSavedFoods.js';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/recipe/:foodId" element={<FoodResultPage />} />
         <Route path="/food-menu-ingredients" element={<FoodSearchIngredientsPage />} />
         <Route path="/recipe-with-ingredients/:foodId" element={<FoodResultsIngredientsPage />} />
+        <Route path="/saved-recipes" element={<UserSavedFoods />} />
       </Routes>
     </Router>
   )

@@ -66,23 +66,27 @@ function FoodResultPage(){
         const checkIfSaved = async () => {
             if(!user) return;
 
-            // searching into firebase to make sure recipe doesn't exist by looking for the user id
-            // and food id
-            const foodExistsAlreadyQuery = query(
-                collection(db, "userSavedRecipes"),
-                where("userId", "==", user.sub),
-                where("foodId", "==", foodId)
-            );
+            try{
+                // searching into firebase to make sure recipe doesn't exist by looking for the user id
+                // and food id
+                const foodExistsAlreadyQuery = query(
+                    collection(db, "userSavedRecipes"),
+                    where("userId", "==", user.sub),
+                    where("foodId", "==", foodId)
+                );
 
-            const querySnapshot = await getDocs(foodExistsAlreadyQuery);
-            
-            if(!querySnapshot.empty) {
-                setIsSaved(true);
-                setSavedDocId(querySnapshot.docs[0].id);
-            }
-            else {
-                setIsSaved(false);
-                setSavedDocId(null);
+                const querySnapshot = await getDocs(foodExistsAlreadyQuery);
+                
+                if(!querySnapshot.empty) {
+                    setIsSaved(true);
+                    setSavedDocId(querySnapshot.docs[0].id);
+                }
+                else {
+                    setIsSaved(false);
+                    setSavedDocId(null);
+                }
+            }catch(err) {
+                console.log("error:", err);
             }
         }
 
