@@ -15,6 +15,8 @@ function UserSavedFoods() {
             }
 
             try{
+                // query for grabbing everything in the firebase database "where" userid from profile matches
+                // userid on firebase.
                 const dbQuery = query(
                     collection(db, 'userSavedRecipes'),
                     where('userId', '==', user.sub),
@@ -22,10 +24,13 @@ function UserSavedFoods() {
 
                 const dbQuerySnapshot = await getDocs(dbQuery);
                 
+                // if query is not empty, map the results 
                 if(!dbQuerySnapshot.empty) {
                     setFoods(dbQuerySnapshot.docs.map((results) => results.data().foodId));
                 }
             }catch(err) {
+                // getting error that i have insufficient permissions. im just making comments to remember
+                // where i left off.
                 console.log("error: ", err);
             }
         }
@@ -34,6 +39,7 @@ function UserSavedFoods() {
     }, [user]);
     
     console.log(foods);
+    
     return(
        <div className="saved-foods-results-section">
         <div className="saved-foods-header">
