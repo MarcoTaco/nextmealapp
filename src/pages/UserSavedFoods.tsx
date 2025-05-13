@@ -8,6 +8,7 @@ function UserSavedFoods() {
 
     const[foods, setFoods] = useState<string[]>([]);
 
+    // this useEffect is for querying the saved foods depending on which user is logged in
     useEffect(() => {
         const grabUserSavedFoods = async () => {
             if(!user) {
@@ -18,27 +19,28 @@ function UserSavedFoods() {
                 // query for grabbing everything in the firebase database "where" userid from profile matches
                 // userid on firebase.
                 const dbQuery = query(
-                    collection(db, 'userSavedRecipes'),
-                    where('userId', '==', user.sub),
+                    collection(db, "userSavedRecipes"),
+                    where("userId", "==", user.sub),
                 );
 
                 const dbQuerySnapshot = await getDocs(dbQuery);
                 
                 // if query is not empty, map the results 
                 if(!dbQuerySnapshot.empty) {
-                    setFoods(dbQuerySnapshot.docs.map((results) => results.data().foodId));
+                    console.log("here");
+                    const foods = dbQuerySnapshot.docs.map((results) => results.data().foodId);
+                    setFoods(foods);
+                }
+                else{
+                    console.log("query is empty");
                 }
             }catch(err) {
-                // getting error that i have insufficient permissions. im just making comments to remember
-                // where i left off.
                 console.log("error: ", err);
             }
         }
 
         grabUserSavedFoods();
     }, [user]);
-    
-    console.log(foods);
     
     return(
        <div className="saved-foods-results-section">

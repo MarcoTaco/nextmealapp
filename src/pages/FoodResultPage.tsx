@@ -74,7 +74,7 @@ function FoodResultPage(){
                     where("userId", "==", user.sub),
                     where("foodId", "==", foodId)
                 );
-
+                
                 const querySnapshot = await getDocs(foodExistsAlreadyQuery);
                 
                 if(!querySnapshot.empty) {
