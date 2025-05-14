@@ -39,6 +39,7 @@ function FoodResultPage(){
     const { foodId } = useParams<{ foodId: string }>();
 
     const foodImage = location.state?.foodImage;
+    const foodName = location.state?.foodName;
 
     useEffect(() => {
         if(foodId){
@@ -68,7 +69,7 @@ function FoodResultPage(){
 
             try{
                 // searching into firebase to make sure recipe doesn't exist by looking for the user id
-                // and food id
+                // and food id.
                 const foodExistsAlreadyQuery = query(
                     collection(db, "userSavedRecipes"),
                     where("userId", "==", user.sub),
@@ -117,7 +118,14 @@ function FoodResultPage(){
 
     const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
 
-    const handleSaveClick = async (foodId: string, userId: string ) => {
+    // im going to have to edit this function. i initially thought about storing the food id and just making an api call to grab all the information again,
+    // but i was worried that would be costly with api calls. i want to store all the information onto the database, but im worried that it can make the database
+    // really big really fast. and if the api updates, we wont see it on the database. 
+    // what im going to do is store the foodid, image, and title of the food we saved. that way we can always have a nice display of foods we saved, and without making
+    // multiple api calls. we will only make api calls when we click on an image on the user saved foods page. 
+
+    // update: so right now, the image is working, but food name is not.
+    const handleSaveClick = async (foodId: string, userId: string, foodImage: string, foodName: string) => {
         try{
             if(savedDocId && isSaved) {
                 await deleteDoc(doc(db, "userSavedRecipes", savedDocId));
@@ -130,7 +138,10 @@ function FoodResultPage(){
                 const docRef = await addDoc(collection(db, "userSavedRecipes"), {
                     foodId: foodId,
                     userId: userId,
+                    foodImage: foodImage,
+                    foodName: foodName,
                 });
+                console.log(foodImage);
                 setIsSaved(true);
                 setSavedDocId(docRef.id);
 
@@ -145,7 +156,7 @@ function FoodResultPage(){
         <div className="main-recipe-results">
             <div className="recipe-results-section">
                 <div className="save-button">
-                    <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") }>
+                    <button onClick={() => handleSaveClick(foodId || "", user?.sub || "", foodImage || "", foodName || "") }>
                         { isSaved? 'Unsave Recipe' : 'Save Recipe' }
                     </button>
                 </div>

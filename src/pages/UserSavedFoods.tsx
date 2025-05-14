@@ -27,7 +27,6 @@ function UserSavedFoods() {
                 
                 // if query is not empty, map the results 
                 if(!dbQuerySnapshot.empty) {
-                    console.log("here");
                     const foods = dbQuerySnapshot.docs.map((results) => results.data().foodId);
                     setFoods(foods);
                 }
@@ -48,16 +47,11 @@ function UserSavedFoods() {
             <h1>Name's Saved Foods</h1>
         </div>
         <div className="saved-foods-results">
-            {/* {recipes.map() => (
-                <div className="food-information">
-                    <div className="food-image">
-                        <img />
-                    </div>
-                    <div className="food-name">
-                        <h4></h4>
-                    </div>
-                </div>
-            )} */}
+            {
+                foods.map((foodId) => (
+                    <p>{ foodId }</p>
+                ))
+            }
         </div>
        </div>
     );
