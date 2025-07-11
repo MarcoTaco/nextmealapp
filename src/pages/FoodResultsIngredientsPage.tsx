@@ -129,6 +129,7 @@ function FoodResultsIngredientsPage(){
         return uniqueIngredients.filter((ingredient) => !ingredients.includes(ingredient));
     }
 
+    
     const handleSaveClick = async (foodId: string, userId: string) => {
         try{
             if(saveDocId && isSaved){

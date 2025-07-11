@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchRecipeInstructions } from '../services/SpoonacularCall.js';
+import { fetchRecipeInformation, fetchRecipeInstructions } from '../services/SpoonacularCall.js';
 import { useParams, useLocation } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
 import { addDoc, collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
@@ -24,22 +24,30 @@ interface RecipeInstructions {
 
 
 
-function FoodResultPage(){
+function FoodResultPage() {
+    // recipe information that will display on the screen and be saved to the database
     const[recipe, setRecipe] = useState<RecipeInstructions | null>(null);
+    const[recipeName, setRecipeName] = useState<string>("");
+    const[recipeImage, setRecipeImage] = useState<string>("");
+
+    // loading and error 
     const[loading, setLoading] = useState<boolean>(true);
     const[error, setError] = useState<string | null>(null);
 
+    // checking the user
     const{ user } = useAuth0();
+    
+    // checking if the user has saved a recipe or not
     const[isSaved, setIsSaved] = useState<boolean>(false);
 
+    // saving the recipe id 
     const[savedDocId, setSavedDocId] = useState<string | null>(null);
 
-    const location = useLocation();
+    // const location = useLocation();
 
     const { foodId } = useParams<{ foodId: string }>();
 
-    const foodImage = location.state?.foodImage;
-
+    // this is responsible for getting the recipe instructions
     useEffect(() => {
         if(foodId){
             const getRecipeInstructions = async () => {
@@ -48,6 +56,7 @@ function FoodResultPage(){
                     const data = await fetchRecipeInstructions(parseInt(foodId));
 
                     setRecipe(data);
+                    setRecipeName(data.name);
                 }catch(err){
                     // console.error(err);
                     setError('Failed to get recipe instructions.');
@@ -59,6 +68,26 @@ function FoodResultPage(){
             getRecipeInstructions();
         }
     }, [foodId]);
+
+    useEffect(() => {
+        if(foodId) {
+            const getRecipeInformation = async () => {
+                try {
+                    setLoading(true);
+                    const data = await fetchRecipeInformation(parseInt(foodId));
+
+                    setRecipeName(data.title);
+                    setRecipeImage(data.image);
+                } catch(error) {
+                    setError('Failed to get recipe information');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            getRecipeInformation();
+        }
+    }, [foodId, recipeName]);
 
     // this useeffect is responsible for checking if a user has already saved the food that we are 
     // currently looking at. if it exists, change the text on the button.
@@ -115,9 +144,14 @@ function FoodResultPage(){
         return Array.from(ingredientsMap.values());
     }
 
+    // initializing an array of unique ingredients, or empty if none
     const uniqueIngredients = recipe ? getUniqueIngredients(recipe) : [];
 
-    const handleSaveClick = async (foodId: string, userId: string ) => {
+    // function is responsible for handling what is getting saved when clicking on save recipe
+
+    // TODO: update this so it's saving the food information to a singular user id 
+    //      it currently is creating new rows with unique ids everytime a food is being saved. 
+    const handleSaveClick = async (userId: string, foodId: string, recipeImage: string, recipeName: string ) => {
         try{
             if(savedDocId && isSaved) {
                 await deleteDoc(doc(db, "userSavedRecipes", savedDocId));
@@ -128,8 +162,10 @@ function FoodResultPage(){
             }
             else {
                 const docRef = await addDoc(collection(db, "userSavedRecipes"), {
-                    foodId: foodId,
                     userId: userId,
+                    foodId: foodId,
+                    foodImage: recipeImage,
+                    foodName: recipeName,
                 });
                 setIsSaved(true);
                 setSavedDocId(docRef.id);
@@ -145,21 +181,23 @@ function FoodResultPage(){
         <div className="main-recipe-results">
             <div className="recipe-results-section">
                 <div className="save-button">
-                    <button onClick={() => handleSaveClick(foodId || "", user?.sub || "") }>
+                    <button onClick={() => handleSaveClick(user?.sub || "", foodId || "", recipeImage || "", recipeName || "") }>
                         { isSaved? 'Unsave Recipe' : 'Save Recipe' }
                     </button>
                 </div>
                 <div className="results-header">
-                    <h1>{recipe.name || 'Recipe Instructions'}</h1>
+                    <h1>{recipeName || 'Recipe Instructions'}</h1>
                 </div>
                 <div className="header-img">
-                    { foodImage && <img src={foodImage} /> }
+                    { recipeImage && <img src={recipeImage} /> }
                 </div>
                 <div className="ingredients-section">
                     {recipe.steps?.map((instruction, index) => (
                         <div className="ingredient-directions">
-                            <h4 className="instruction-step" key={index}>Step {instruction.number}</h4>
-                            <p className="instruction-detail" key={index}>{instruction.step}</p>
+                            {/* <h4 className="instruction-step" key={index}>Step {instruction.number}</h4>
+                            <p className="instruction-detail" key={index}>{instruction.step}</p> */}
+                            <h4 className="instruction-step">Step { instruction.number }</h4>
+                            <p className="instruction-detail">{ instruction.step }</p>
                         </div>
                     ))}
                 </div>

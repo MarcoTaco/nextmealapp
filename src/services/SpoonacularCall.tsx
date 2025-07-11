@@ -1,5 +1,6 @@
 // this file is for the different kinds of api calls i will be making
 import axios, { AxiosResponse } from 'axios';
+import { stringify } from 'querystring';
 
 const APIKEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 
@@ -48,6 +49,12 @@ interface RecipeByIngredients{
 
 interface RecipeByIngredientsResponse{
     results: RecipeByIngredients[],
+}
+
+interface RecipeInformation {
+    id: number,
+    title: string,
+    image: string
 }
 
 // displaying images of foods for a "display all" page. fetch the images and titles of food based on a query
@@ -103,3 +110,20 @@ export const fetchRecipeByIngredients = async (query: string): Promise<RecipeByI
         throw new Error(`Error with fetching by ingredients: ${error}`);
     }
 };
+
+// fetches recipe information. for now i have the id, name, and image
+export const fetchRecipeInformation = async (id: number): Promise<RecipeInformation> => {
+    const URLINFORMATION = `https://api.spoonacular.com/recipes/${id}/information`;
+
+    try {
+        const response = await axios.get<{ id: number, title: string, image: string}>(URLINFORMATION, {
+            params: {
+                apiKey: APIKEY,
+            }
+        });
+
+        return response.data;
+    } catch(error) {
+        throw new Error(`Error information ${error}`);
+    }
+}
