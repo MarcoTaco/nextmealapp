@@ -97,7 +97,7 @@ function FoodResultPage() {
 
             try{
                 // searching into firebase to make sure recipe doesn't exist by looking for the user id
-                // and food id
+                // and food id.
                 const foodExistsAlreadyQuery = query(
                     collection(db, "userSavedRecipes"),
                     where("userId", "==", user.sub),
@@ -167,6 +167,7 @@ function FoodResultPage() {
                     foodImage: recipeImage,
                     foodName: recipeName,
                 });
+                
                 setIsSaved(true);
                 setSavedDocId(docRef.id);
 
