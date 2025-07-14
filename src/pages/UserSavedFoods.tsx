@@ -6,7 +6,9 @@ import { db } from '../services/Firebase.js';
 function UserSavedFoods() {
     const{ user } = useAuth0();
 
-    const[foods, setFoods] = useState<string[]>([]);
+    const[foodId, setFoodId] = useState<string[]>([]);
+    const[foodNames, setFoodNames] = useState<string[]>([]);
+    const[foodPics, setFoodPics] = useState<string[]>([]);
 
     // this useEffect is for querying the saved foods depending on which user is logged in
     useEffect(() => {
@@ -27,8 +29,13 @@ function UserSavedFoods() {
                 
                 // if query is not empty, map the results 
                 if(!dbQuerySnapshot.empty) {
-                    const foods = dbQuerySnapshot.docs.map((results) => results.data().foodId);
-                    setFoods(foods);
+                    const foodId = dbQuerySnapshot.docs.map((results) => results.data().foodId);
+                    const foodNames = dbQuerySnapshot.docs.map((results) => results.data().foodName);
+                    const foodPics = dbQuerySnapshot.docs.map((results) => results.data().foodImage);
+
+                    setFoodId(foodId);
+                    setFoodNames(foodNames);
+                    setFoodPics(foodPics);
                 }
                 else{
                     console.log("query is empty");
@@ -48,10 +55,15 @@ function UserSavedFoods() {
         </div>
         <div className="saved-foods-results">
             {
-                foods.map((foodId) => (
-                    <p>{ foodId }</p>
+                foodPics.map((foodPic) => (
+                    <img src={ foodPics } />
                 ))
             }
+            {
+                foodNames.map((foodName) => (
+                    <h3>{ foodName } </h3>
+                ))
+            }   
         </div>
        </div>
     );
