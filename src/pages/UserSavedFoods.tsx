@@ -6,7 +6,7 @@ import { db } from '../services/Firebase.js';
 function UserSavedFoods() {
     const{ user } = useAuth0();
 
-    const[foodId, setFoodId] = useState<string[]>([]);
+    const[foodIds, setFoodIds] = useState<string[]>([]);
     const[foodNames, setFoodNames] = useState<string[]>([]);
     const[foodPics, setFoodPics] = useState<string[]>([]);
 
@@ -29,11 +29,11 @@ function UserSavedFoods() {
                 
                 // if query is not empty, map the results 
                 if(!dbQuerySnapshot.empty) {
-                    const foodId = dbQuerySnapshot.docs.map((results) => results.data().foodId);
+                    const foodIds = dbQuerySnapshot.docs.map((results) => results.data().foodId);
                     const foodNames = dbQuerySnapshot.docs.map((results) => results.data().foodName);
                     const foodPics = dbQuerySnapshot.docs.map((results) => results.data().foodImage);
 
-                    setFoodId(foodId);
+                    setFoodIds(foodIds);
                     setFoodNames(foodNames);
                     setFoodPics(foodPics);
                 }
@@ -54,16 +54,26 @@ function UserSavedFoods() {
             <h1>Name's Saved Foods</h1>
         </div>
         <div className="saved-foods-results">
-            {
-                foodPics.map((foodPic) => (
-                    <img src={ foodPics } />
-                ))
-            }
-            {
-                foodNames.map((foodName) => (
-                    <h3>{ foodName } </h3>
-                ))
-            }   
+            {/* {foodIds.map((foodId) => (
+                <div className="saved-food">
+                    {foodPics.map((foodPic) => (
+                        <img src={ foodPic } />
+                    ))}
+                    {foodNames.map((foodName) => (
+                        <h3>{ foodName }</h3>
+                    ))}
+                </div>
+            ))} */}
+            {foodPics.map((foodPic) => (
+                <div className="food-img">
+                    <img src={ foodPic } />
+                </div>
+            ))}
+            {foodNames.map((foodName) => (
+                <div className="food-name">
+                    <h3>{ foodName }</h3>
+                </div>
+            ))}
         </div>
        </div>
     );
