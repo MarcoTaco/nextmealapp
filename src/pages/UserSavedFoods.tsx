@@ -3,12 +3,19 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { collection, query, where, getDocs, doc } from 'firebase/firestore';
 import { db } from '../services/Firebase.js';
 
+type SavedRecipe = {
+    foodId: string;
+    foodName: string;
+    foodImage: string;
+};
+
 function UserSavedFoods() {
     const{ user } = useAuth0();
 
-    const[foodIds, setFoodIds] = useState<string[]>([]);
-    const[foodNames, setFoodNames] = useState<string[]>([]);
-    const[foodPics, setFoodPics] = useState<string[]>([]);
+    // const[foodIds, setFoodIds] = useState<string[]>([]);
+    // const[foodNames, setFoodNames] = useState<string[]>([]);
+    // const[foodPics, setFoodPics] = useState<string[]>([]);
+    const[showRecipes, setShowRecipes] = useState<SavedRecipe[]>([]);
 
     // this useEffect is for querying the saved foods depending on which user is logged in
     useEffect(() => {
@@ -29,13 +36,15 @@ function UserSavedFoods() {
                 
                 // if query is not empty, map the results 
                 if(!dbQuerySnapshot.empty) {
-                    const foodIds = dbQuerySnapshot.docs.map((results) => results.data().foodId);
-                    const foodNames = dbQuerySnapshot.docs.map((results) => results.data().foodName);
-                    const foodPics = dbQuerySnapshot.docs.map((results) => results.data().foodImage);
+                    const showRecipesData = dbQuerySnapshot.docs.map((results) => {
+                        return {
+                            foodId: results.data().foodId,
+                            foodName: results.data().foodName,
+                            foodImage: results.data().foodImage,
+                        };
+                    });
 
-                    setFoodIds(foodIds);
-                    setFoodNames(foodNames);
-                    setFoodPics(foodPics);
+                    setShowRecipes(showRecipesData);
                 }
                 else{
                     console.log("query is empty");
@@ -54,24 +63,14 @@ function UserSavedFoods() {
             <h1>Name's Saved Foods</h1>
         </div>
         <div className="saved-foods-results">
-            {/* {foodIds.map((foodId) => (
-                <div className="saved-food">
-                    {foodPics.map((foodPic) => (
-                        <img src={ foodPic } />
-                    ))}
-                    {foodNames.map((foodName) => (
-                        <h3>{ foodName }</h3>
-                    ))}
-                </div>
-            ))} */}
-            {foodPics.map((foodPic) => (
-                <div className="food-img">
-                    <img src={ foodPic } />
-                </div>
-            ))}
-            {foodNames.map((foodName) => (
-                <div className="food-name">
-                    <h3>{ foodName }</h3>
+            {showRecipes.map((recipe) => (
+                <div className="food-result">
+                    <div className="food-image">
+                        <img src={ recipe.foodImage } />
+                    </div>
+                    <div className="food-name">
+                        <h3>{ recipe.foodName }</h3>
+                    </div>
                 </div>
             ))}
         </div>
