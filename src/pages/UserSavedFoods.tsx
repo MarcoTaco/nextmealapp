@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { collection, query, where, getDocs, doc } from 'firebase/firestore';
 import { db } from '../services/Firebase.js';
+import '../styles/UserSavedFoods.scss';
 
 type SavedRecipe = {
     foodId: string;
