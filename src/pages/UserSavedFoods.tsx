@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs, doc } from 'firebase/firestore';
 import { db } from '../services/Firebase.js';
 import '../styles/UserSavedFoods.scss';
@@ -13,9 +14,6 @@ type SavedRecipe = {
 function UserSavedFoods() {
     const{ user } = useAuth0();
 
-    // const[foodIds, setFoodIds] = useState<string[]>([]);
-    // const[foodNames, setFoodNames] = useState<string[]>([]);
-    // const[foodPics, setFoodPics] = useState<string[]>([]);
     const[showRecipes, setShowRecipes] = useState<SavedRecipe[]>([]);
 
     // this useEffect is for querying the saved foods depending on which user is logged in
@@ -58,6 +56,12 @@ function UserSavedFoods() {
         grabUserSavedFoods();
     }, [user]);
     
+    const navigate = useNavigate();
+
+    function handleImgClick(foodId: string, foodImage: string) {
+        navigate(`/recipe/${foodId}`, { state: {foodImage}});
+    }
+
     return(
        <div className="saved-foods-results-section">
         <div className="saved-foods-header">
@@ -65,9 +69,9 @@ function UserSavedFoods() {
         </div>
         <div className="saved-foods-results">
             {showRecipes.map((recipe) => (
-                <div className="food-result">
+                <div className="food-result" data-id={recipe.foodId}>
                     <div className="food-image">
-                        <img src={ recipe.foodImage } />
+                        <img src={ recipe.foodImage } onClick={() => (handleImgClick(recipe.foodId, recipe.foodImage))} alt={recipe.foodName} data-id={recipe.foodId}/>
                     </div>
                     <div className="food-name">
                         <h3>{ recipe.foodName }</h3>
