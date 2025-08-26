@@ -28,6 +28,7 @@ function FoodResultsIngredientsPage(){
     const[error, setError] = useState<string | null>(null);
 
     const{ user } = useAuth0();
+
     const[isSaved, setIsSaved] = useState<boolean>(false);
 
     const[saveDocId, setSaveDocId] = useState<string | null>(null);
@@ -67,23 +68,27 @@ function FoodResultsIngredientsPage(){
         const checkIfSaved = async () => {
             if(!user) return;
 
-            // searching into firebase to make sure recipe doesn't exist by looking
-            // at user and food id
-            const foodExistsAlreadyQuery = query(
-                collection(db, "userSavedRecipes"),
-                where("userId", "==", user.sub),
-                where("foodId", "==", foodId)
-            );
+            try{
+                // searching into firebase to make sure recipe doesn't exist by looking
+                // at user and food id
+                const foodExistsAlreadyQuery = query(
+                    collection(db, "userSavedRecipes"),
+                    where("userId", "==", user.sub),
+                    where("foodId", "==", foodId)
+                );
 
-            const querySnapshot = await getDocs(foodExistsAlreadyQuery);
+                const querySnapshot = await getDocs(foodExistsAlreadyQuery);
 
-            if(!querySnapshot.empty) {
-                setIsSaved(true);
-                setSaveDocId(querySnapshot.docs[0].id);
-            }
-            else {
-                setIsSaved(false);
-                setSaveDocId(null);
+                if(!querySnapshot.empty) {
+                    setIsSaved(true);
+                    setSaveDocId(querySnapshot.docs[0].id);
+                }
+                else {
+                    setIsSaved(false);
+                    setSaveDocId(null);
+                }
+            } catch(err) {
+                console.error("error: ", err);
             }
         }
         
@@ -124,6 +129,7 @@ function FoodResultsIngredientsPage(){
         return uniqueIngredients.filter((ingredient) => !ingredients.includes(ingredient));
     }
 
+    
     const handleSaveClick = async (foodId: string, userId: string) => {
         try{
             if(saveDocId && isSaved){

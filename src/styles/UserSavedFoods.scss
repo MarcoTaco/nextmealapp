@@ -1,0 +1,51 @@
+@import './global.scss';
+
+body{
+    background-color: $secondaryColor;
+}
+
+@media(max-width: 767px) {
+
+}
+
+@media(min-width: 768px) {
+    .saved-foods-results-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .saved-foods-header {
+            color: black;
+            margin: 40px 0 40px 0;
+        }
+        .saved-foods-results {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            .food-result {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin: 10px 10px 50px 10px;
+                .food-image {
+                    margin-bottom: 15px;
+                    text-align: center;
+                    img{
+                        max-width: 80%;
+                        margin-left: auto;
+                        margin-right: auto;
+                        cursor: pointer;
+                    }
+                }
+                .food-name {
+                    h3 {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
